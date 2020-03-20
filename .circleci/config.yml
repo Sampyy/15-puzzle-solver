@@ -2,9 +2,24 @@
 version: 2.1
 # Use a package of configuration called an orb.
 orbs:
-  codecov: codecov/codecov@1.0.2
+  # Declare a dependency on the welcome-orb
+  welcome: circleci/welcome-orb@0.4.1
 jobs:
   build:
     steps:
       - codecov/upload:
           file: C:\Users\Sami\15-puzzle-solver\build\reports\jacoco\test\jacocoTestReport
+  test:
+    post:
+        - if [ -e ./gradlew ]; then ./gradlew jacocoTestReport;else gradle jacocoTestReport;fi
+        - bash <(curl -s https://codecov.io/bash)
+# Orchestrate or schedule a set of jobs
+workflows:
+  # Name the workflow "welcome"
+  welcome:
+    # Run the welcome/run job in its own container
+    jobs:
+      - build
+      - test
+
+
