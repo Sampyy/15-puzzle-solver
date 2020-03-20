@@ -5,3 +5,10 @@ Javalla tehty projekti 15-ongelman ratkaisemiseen. Tehty projektina Helsingin yl
 ### Viikkoraportit
 
 [Viikkoraportti 1](https://github.com/Sampyy/15-puzzle-solver/blob/master/Dokumentaatio/Viikkoraportit/Viikkoraportti%201.md)
+[Viikkoraportti 2](https://github.com/Sampyy/15-puzzle-solver/blob/master/Dokumentaatio/Viikkoraportit/Viikkoraportti%202.md)
+
+
+### Dokumentaatiota
+
+[Määrittelydokumentti](https://github.com/Sampyy/15-puzzle-solver/blob/master/Dokumentaatio/maarittelydokumentti.md)
+
