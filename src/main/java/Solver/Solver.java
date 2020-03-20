@@ -5,6 +5,9 @@ import org.w3c.dom.ls.LSOutput;
 import java.lang.reflect.Array;
 import java.util.*;
 
+/**
+ * A solver for 15-puzzle (or other sized puzzles) (https://en.wikipedia.org/wiki/15_puzzle) implementing A* algorithm (https://en.wikipedia.org/wiki/A*_search_algorithm)
+ */
 public class Solver {
     private int gridSize;
 
@@ -21,7 +24,15 @@ public class Solver {
 
     private int[] solved;
 
-    public Solver(int[] grid) {
+    public Solver() {
+    }
+
+    /**
+     *
+     * @param grid the puzzle to be solved as a list
+     * @return returns a list of moves for completion
+     */
+    public ArrayList<Integer> solve(int[] grid) {
         this.grid = grid;
         this.gridSize = (int) Math.sqrt(grid.length);
         this.solved = new int[grid.length];
@@ -32,12 +43,15 @@ public class Solver {
             }
         }
         solved[grid.length-1] = 0;
-    }
-
-    public ArrayList<Integer> solve() {
         return findSolution(grid, startingPos);
     }
 
+    /**
+     * Finds the solution using A* algorithm
+     * @param currGrid grid to solve
+     * @param currPos Position of the blank tile(0), calculated in solve
+     * @return returns the list of moves for solution
+     */
     private ArrayList<Integer> findSolution (int[] currGrid, int currPos) {
         PriorityQueue<AStarState> openSet = new PriorityQueue<>();
         ArrayList<AStarState> closedSet = new ArrayList<>();
@@ -45,26 +59,36 @@ public class Solver {
 
         while(!openSet.isEmpty()) {
             AStarState currentState = openSet.poll();
-            //System.out.println("set\n" + asString(currentState.getState()));
+            System.out.println("set\n" + asString(currentState.getState()));
             if (Arrays.equals(currentState.getState(), solved)) {
                 return currentState.getMoves();
             }
             System.out.println(currentState.getfValue());
-            closedSet.add(currentState);
             ArrayDeque<AStarState> validSteps = checkValidSteps(currentState);
+            /*System.out.println("Open state; \n");
+            for (AStarState state : openSet) {
+                System.out.print(asString(state.getState()) + ", fvalue: " + state.getfValue()  + " \n");
+            }
+            System.out.println("Closed state: \n");
+            for (AStarState state : closedSet) {
+                System.out.print(asString(state.getState())+ ", \n");
+            }*/
             while (!validSteps.isEmpty()) {
                 AStarState nextStep = validSteps.poll();
                 //System.out.println("Current step: " + nextStep);
                 //System.out.println("Current state: \n" + asString(newGrid));
                 //System.out.println(newState.getfValue());
-                if (!closedSet.contains(nextStep)) {
                     openSet.add(nextStep);
-                }
             }
         }
         return null;
     }
 
+    /**
+     * Checks which moves are allowed to take on a particular gamestate
+     * @param state the current state of the board
+     * @return returns a queue with all the valid steps
+     */
     private ArrayDeque<AStarState> checkValidSteps (AStarState state) {
         ArrayDeque<AStarState> validSteps = new ArrayDeque<>();
         int currPos = state.getCurrPos();
@@ -103,6 +127,11 @@ public class Solver {
         return validSteps;
     }
 
+    /**
+     * used to make the move, moved to AStarState
+     * @param gridToReturn
+     * @return
+     */
     /*public int[] makeMove(int[] state, int move, int pos) {
         int[] newGrid = new int[state.length];
         for(int i = 0; i < state.length; i++) {
@@ -113,6 +142,11 @@ public class Solver {
         return newGrid;
     }*/
 
+    /**
+     * Used for troubleshooting, returns game state as string.
+     * @param gridToReturn
+     * @return
+     */
     public String asString(int[] gridToReturn) {
         String stringToReturn = new String();
         for(int i = 0; i < gridSize; i++) {

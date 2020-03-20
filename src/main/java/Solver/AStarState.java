@@ -5,52 +5,28 @@ import jdk.nashorn.internal.ir.debug.ASTWriter;
 import java.util.ArrayList;
 import java.util.Arrays;
 
+/**
+ * Implementation for states in A* algorithm
+ */
+
+
 public class AStarState implements Comparable<AStarState> {
     private int gValue;
     private int fValue;
     private int gridSize;
-
-    public AStarState getParent() {
-        return parent;
-    }
-
-    public void setParent(AStarState parent) {
-        this.parent = parent;
-    }
-
+    public int hValueInflation = 3;
     private AStarState parent;
-
-    public int getCurrPos() {
-        return currPos;
-    }
-
     private int currPos;
-
-    public int[] getState() {
-        int[] returnState = new int[state.length];
-        for (int i = 0; i < state.length; i++) {
-            returnState[i] = state[i];
-        }
-        return returnState;
-    }
-
     private int[] state;
-
-    public ArrayList getMoves() {
-        return moves;
-    }
-
     private ArrayList moves;
 
-    public int getGValue() {
-        return gValue;
-    }
-
-    public int getfValue() {
-        return fValue;
-    }
-
-
+    /**
+     *
+     * @param state state of the grid
+     * @param gvalue amount of steps to reach this state
+     * @param currPos current position of the blank tile
+     * @param moves move list to reach current position
+     */
     public AStarState(int[] state, int gvalue, int currPos, ArrayList<Integer> moves) {
         this.currPos = currPos;
         this.state = state;
@@ -59,6 +35,12 @@ public class AStarState implements Comparable<AStarState> {
         this.moves = moves;
     }
 
+    /**
+     * calculates hvalue of current state, which is the amount of steps required at the least
+     * to get to end state, calculated as the sum of every tiles manhattan distance from its
+     * goal tile
+     * @return hvalue of current state
+     */
     public int hvalue() {
         int hvalue = 0;
         for (int i = 0; i < state.length; i++) {
@@ -66,8 +48,14 @@ public class AStarState implements Comparable<AStarState> {
                 hvalue+= getDistance(i);
             }
         }
-        return hvalue;
+        return this.hValueInflation*hvalue;
     }
+
+    /**
+     * calculates the manhattan distance of given tile from its goal position
+     * @param tile tile to calculate the distance for
+     * @return distance
+     */
     //Since we can only move in one direction at once, and every up/down/right/left move is permitted
     //the distance is |x1-x2| + |y1-y2|
     private int getDistance(int tile) {
@@ -84,6 +72,11 @@ public class AStarState implements Comparable<AStarState> {
         return distance;
     }
 
+    /**
+     * Makes a move on the current state (moves blank tile to adjacent tile, and adjacent tile to blank tiles old position)
+     * @param move which tile to move blank to
+     * @param pos blank tiles current position
+     */
     public void makeMove(int move, int pos) {
         int[] newGrid = new int[state.length];
         for(int i = 0; i < state.length; i++) {
@@ -95,6 +88,43 @@ public class AStarState implements Comparable<AStarState> {
         this.currPos = move;
         this.fValue = gValue + hvalue();
     }
+
+    /**
+     *
+     * @return current state as a list
+     */
+    public int[] getState() {
+        int[] returnState = new int[state.length];
+        for (int i = 0; i < state.length; i++) {
+            returnState[i] = state[i];
+        }
+        return returnState;
+    }
+
+    public ArrayList getMoves() {
+        return moves;
+    }
+
+    public AStarState getParent() {
+        return parent;
+    }
+
+    public void setParent(AStarState parent) {
+        this.parent = parent;
+    }
+
+    public int getGValue() {
+        return gValue;
+    }
+
+    public int getfValue() {
+        return fValue;
+    }
+
+    public int getCurrPos() {
+        return currPos;
+    }
+
     @Override
     public boolean equals(Object o) {
         AStarState equalsState = (AStarState) o;
@@ -104,9 +134,14 @@ public class AStarState implements Comparable<AStarState> {
         return false;
     }
 
+    /**
+     * Comparison using fvalue as the means of comparing
+     * @param state the state to compare to
+     * @return lower fvalue
+     */
     @Override
-    public int compareTo(AStarState o) {
-        return this.fValue - o.getfValue();
+    public int compareTo(AStarState state) {
+        return this.fValue - state.getfValue();
     }
     public String asString(int[] gridToReturn) {
         String stringToReturn = new String();
