@@ -10,6 +10,8 @@ Javalla tehty projekti 15-ongelman ratkaisemiseen. Tehty projektina Helsingin yl
 
 [Viikkoraportti 2](https://github.com/Sampyy/15-puzzle-solver/blob/master/Dokumentaatio/Viikkoraportit/Viikkoraportti%202.md)
 
+[Viikkoraportti 3](https://github.com/Sampyy/15-puzzle-solver/blob/master/Dokumentaatio/Viikkoraportit/Viikkoraportti%203.md)
+
 
 
 
