@@ -3,17 +3,17 @@
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
 <meta http-equiv="x-ua-compatible" content="IE=edge"/>
-<title>Test results - Class Solver.AStarStateTest</title>
+<title>Test results - Class Solver.SolverTest</title>
 <link href="../css/base-style.css" rel="stylesheet" type="text/css"/>
 <link href="../css/style.css" rel="stylesheet" type="text/css"/>
 <script src="../js/report.js" type="text/javascript"></script>
 </head>
 <body>
 <div id="content">
-<h1>Class Solver.AStarStateTest</h1>
+<h1>Class Solver.SolverTest</h1>
 <div class="breadcrumbs">
 <a href="../index.html">all</a> &gt; 
-<a href="../packages/Solver.html">Solver</a> &gt; AStarStateTest</div>
+<a href="../packages/Solver.html">Solver</a> &gt; SolverTest</div>
 <div id="summary">
 <table>
 <tr>
@@ -23,7 +23,7 @@
 <tr>
 <td>
 <div class="infoBox" id="tests">
-<div class="counter">8</div>
+<div class="counter">11</div>
 <p>tests</p>
 </div>
 </td>
@@ -41,7 +41,7 @@
 </td>
 <td>
 <div class="infoBox" id="duration">
-<div class="counter">0.002s</div>
+<div class="counter">0.008s</div>
 <p>duration</p>
 </div>
 </td>
@@ -63,6 +63,9 @@
 <li>
 <a href="#tab0">Tests</a>
 </li>
+<li>
+<a href="#tab1">Standard output</a>
+</li>
 </ul>
 <div id="tab0" class="tab">
 <h2>Tests</h2>
@@ -75,46 +78,90 @@
 </tr>
 </thead>
 <tr>
-<td class="success">comparingToNullWorks</td>
+<td class="success">checkDownDoesntWorkWhenIllegal</td>
 <td class="success">0s</td>
 <td class="success">passed</td>
 </tr>
 <tr>
-<td class="success">comparingWorks</td>
-<td class="success">0s</td>
-<td class="success">passed</td>
-</tr>
-<tr>
-<td class="success">getCurrPos</td>
+<td class="success">checkDownWorksWhenLegal</td>
 <td class="success">0.001s</td>
 <td class="success">passed</td>
 </tr>
 <tr>
-<td class="success">getGValue</td>
+<td class="success">checkLeftDoesntWorkWhenIllegal</td>
 <td class="success">0s</td>
 <td class="success">passed</td>
 </tr>
 <tr>
-<td class="success">getParent</td>
+<td class="success">checkLeftWorksWhenLegal</td>
 <td class="success">0s</td>
 <td class="success">passed</td>
 </tr>
 <tr>
-<td class="success">hvalue</td>
-<td class="success">0.001s</td>
-<td class="success">passed</td>
-</tr>
-<tr>
-<td class="success">makeMove</td>
+<td class="success">checkRightDoesntWorkWhenIllegal</td>
 <td class="success">0s</td>
 <td class="success">passed</td>
 </tr>
 <tr>
-<td class="success">testEquals</td>
+<td class="success">checkRightWorksWhenLegal</td>
 <td class="success">0s</td>
+<td class="success">passed</td>
+</tr>
+<tr>
+<td class="success">checkUpDoesntWorkWhenIllegal</td>
+<td class="success">0s</td>
+<td class="success">passed</td>
+</tr>
+<tr>
+<td class="success">checkUpWorksWhenLegal</td>
+<td class="success">0s</td>
+<td class="success">passed</td>
+</tr>
+<tr>
+<td class="success">getSolvedAsString</td>
+<td class="success">0s</td>
+<td class="success">passed</td>
+</tr>
+<tr>
+<td class="success">solve</td>
+<td class="success">0s</td>
+<td class="success">passed</td>
+</tr>
+<tr>
+<td class="success">solveWorks</td>
+<td class="success">0.007s</td>
 <td class="success">passed</td>
 </tr>
 </table>
+</div>
+<div id="tab1" class="tab">
+<h2>Standard output</h2>
+<span class="code">
+<pre>set
+1,2,3,
+0,4,6,
+7,5,8,
+
+9
+set
+1,2,3,
+4,0,6,
+7,5,8,
+
+7
+set
+1,2,3,
+4,5,6,
+7,0,8,
+
+5
+set
+1,2,3,
+4,5,6,
+7,8,0,
+
+</pre>
+</span>
 </div>
 </div>
 <div id="footer">

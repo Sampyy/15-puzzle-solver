@@ -33,6 +33,7 @@ public class AStarState implements Comparable<AStarState> {
         this.gValue = gvalue;
         this.gridSize = (int) Math.sqrt(this.state.length);
         this.moves = moves;
+        this.fValue = hvalue() + gvalue;
     }
 
     /**
@@ -87,6 +88,7 @@ public class AStarState implements Comparable<AStarState> {
         this.state = newGrid;
         this.currPos = move;
         this.fValue = gValue + hvalue();
+        this.moves.add(move);
     }
 
     /**
@@ -101,7 +103,7 @@ public class AStarState implements Comparable<AStarState> {
         return returnState;
     }
 
-    public ArrayList getMoves() {
+    public ArrayList<Integer> getMoves() {
         return moves;
     }
 
@@ -141,9 +143,13 @@ public class AStarState implements Comparable<AStarState> {
      */
     @Override
     public int compareTo(AStarState state) {
+        if (state == null) {
+            return 0;
+        }
         return this.fValue - state.getfValue();
     }
-    public String asString(int[] gridToReturn) {
+
+    public String toString(int[] gridToReturn) {
         String stringToReturn = new String();
         for(int i = 0; i < 4; i++) {
             for(int j = 0; j < 4; j++) {

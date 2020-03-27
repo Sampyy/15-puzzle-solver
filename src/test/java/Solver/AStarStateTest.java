@@ -65,4 +65,20 @@ public class AStarStateTest {
         assertTrue(state.equals(stateTest));
     }
 
+    @Test
+    public void comparingToNullWorks(){
+        assertEquals(0, state.compareTo(null));
+    }
+
+    @Test
+    public void comparingWorks() {
+        int[] grid = new int[16];
+        grid[0] = 5;grid[1] = 1;grid[2] = 12;grid[3] = 7;
+        grid[4] = 6;grid[5] = 10;grid[6] = 11;grid[7] = 3;
+        grid[8] = 2;grid[9] = 0;grid[10] = 15;grid[11] = 13;
+        grid[12] = 14;grid[13] = 4;grid[14] = 9;grid[15] = 8;
+        AStarState stateTest = new AStarState(grid, 2, 3, new ArrayList<Integer>());
+
+        assertTrue(stateTest.compareTo(state) < 0);
+    }
 }

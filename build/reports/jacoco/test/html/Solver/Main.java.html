@@ -1,85 +1,131 @@
 <?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="fi"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>Main.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">15-puzzle-solver</a> &gt; <a href="index.source.html" class="el_package">Solver</a> &gt; <span class="el_source">Main.java</span></div><h1>Main.java</h1><pre class="source lang-java linenums">package Solver;
+import jdk.nashorn.internal.ir.debug.ASTWriter;
+
 import java.util.ArrayList;
 
-<span class="nc" id="L4">public class Main {</span>
+<span class="nc" id="L6">public class Main {</span>
     public static void main(String[] args) {
-<span class="nc" id="L6">       int[] grid = new int[16];</span>
-<span class="nc" id="L7">       int[] grid2 = new int[25];</span>
-<span class="nc" id="L8">        grid[0] = 5;</span>
-<span class="nc" id="L9">        grid[1] = 1;</span>
-<span class="nc" id="L10">        grid[2] = 12;</span>
-<span class="nc" id="L11">        grid[3] = 7;</span>
-<span class="nc" id="L12">        grid[4] = 6;</span>
-<span class="nc" id="L13">        grid[5] = 10;</span>
-<span class="nc" id="L14">        grid[6] = 11;</span>
-<span class="nc" id="L15">        grid[7] = 3;</span>
-<span class="nc" id="L16">        grid[8] = 2;</span>
-<span class="nc" id="L17">        grid[9] = 15;</span>
-<span class="nc" id="L18">        grid[10] = 0;</span>
-<span class="nc" id="L19">        grid[11] = 13;</span>
-<span class="nc" id="L20">        grid[12] = 14;</span>
-<span class="nc" id="L21">        grid[13] = 4;</span>
-<span class="nc" id="L22">        grid[14] = 9;</span>
-<span class="nc" id="L23">        grid[15] = 8;</span>
+<span class="nc" id="L8">       int[] grid = new int[16];</span>
+<span class="nc" id="L9">       int[] grid2 = new int[25];</span>
+<span class="nc" id="L10">       int[] grid3 = new int[9];</span>
 
-<span class="nc" id="L25">        grid2[0] = 19;</span>
-<span class="nc" id="L26">        grid2[1] = 4;</span>
-<span class="nc" id="L27">        grid2[2] = 1;</span>
-<span class="nc" id="L28">        grid2[3] = 6;</span>
-<span class="nc" id="L29">        grid2[4] = 10;</span>
-<span class="nc" id="L30">        grid2[5] = 21;</span>
-<span class="nc" id="L31">        grid2[6] = 17;</span>
-<span class="nc" id="L32">        grid2[7] = 15;</span>
-<span class="nc" id="L33">        grid2[8] = 3;</span>
-<span class="nc" id="L34">        grid2[9] = 8;</span>
-<span class="nc" id="L35">        grid2[10] = 13;</span>
-<span class="nc" id="L36">        grid2[11] = 2;</span>
-<span class="nc" id="L37">        grid2[12] = 16;</span>
-<span class="nc" id="L38">        grid2[13] = 22;</span>
-<span class="nc" id="L39">        grid2[14] = 9;</span>
-<span class="nc" id="L40">        grid2[15] = 24;</span>
-<span class="nc" id="L41">        grid2[16] = 11;</span>
-<span class="nc" id="L42">        grid2[17] = 12;</span>
-<span class="nc" id="L43">        grid2[18] = 14;</span>
-<span class="nc" id="L44">        grid2[19] = 23;</span>
-<span class="nc" id="L45">        grid2[20] = 5;</span>
-<span class="nc" id="L46">        grid2[21] = 20;</span>
-<span class="nc" id="L47">        grid2[22] = 18;</span>
-<span class="nc" id="L48">        grid2[23] = 7;</span>
-<span class="nc" id="L49">        grid2[24] = 0;</span>
+<span class="nc" id="L12">       grid[0] = 15;</span>
+<span class="nc" id="L13">       grid[1] = 14;</span>
+<span class="nc" id="L14">       grid[2] = 1;</span>
+<span class="nc" id="L15">       grid[3] = 6;</span>
+<span class="nc" id="L16">       grid[4] = 9;</span>
+<span class="nc" id="L17">       grid[5] = 11;</span>
+<span class="nc" id="L18">       grid[6] = 4;</span>
+<span class="nc" id="L19">       grid[7] = 12;</span>
+<span class="nc" id="L20">       grid[8] = 0;</span>
+<span class="nc" id="L21">       grid[9] = 10;</span>
+<span class="nc" id="L22">       grid[10] = 7;</span>
+<span class="nc" id="L23">       grid[11] = 3;</span>
+<span class="nc" id="L24">       grid[12] = 13;</span>
+<span class="nc" id="L25">       grid[13] = 8;</span>
+<span class="nc" id="L26">       grid[14] = 5;</span>
+<span class="nc" id="L27">       grid[15] = 2;</span>
+
+
+
+<span class="nc" id="L31">       grid2[0] = 19;</span>
+<span class="nc" id="L32">       grid2[1] = 4;</span>
+<span class="nc" id="L33">       grid2[2] = 1;</span>
+<span class="nc" id="L34">       grid2[3] = 6;</span>
+<span class="nc" id="L35">       grid2[4] = 10;</span>
+<span class="nc" id="L36">       grid2[5] = 21;</span>
+<span class="nc" id="L37">       grid2[6] = 17;</span>
+<span class="nc" id="L38">       grid2[7] = 15;</span>
+<span class="nc" id="L39">       grid2[8] = 3;</span>
+<span class="nc" id="L40">       grid2[9] = 8;</span>
+<span class="nc" id="L41">       grid2[10] = 13;</span>
+<span class="nc" id="L42">       grid2[11] = 2;</span>
+<span class="nc" id="L43">       grid2[12] = 16;</span>
+<span class="nc" id="L44">       grid2[13] = 22;</span>
+<span class="nc" id="L45">       grid2[14] = 9;</span>
+<span class="nc" id="L46">       grid2[15] = 24;</span>
+<span class="nc" id="L47">       grid2[16] = 11;</span>
+<span class="nc" id="L48">       grid2[17] = 12;</span>
+<span class="nc" id="L49">       grid2[18] = 14;</span>
+<span class="nc" id="L50">       grid2[19] = 23;</span>
+<span class="nc" id="L51">       grid2[20] = 5;</span>
+<span class="nc" id="L52">       grid2[21] = 20;</span>
+<span class="nc" id="L53">       grid2[22] = 18;</span>
+<span class="nc" id="L54">       grid2[23] = 7;</span>
+<span class="nc" id="L55">       grid2[24] = 0;</span>
+
+<span class="nc" id="L57">       grid3[0] = 1;</span>
+<span class="nc" id="L58">       grid3[1] = 2;</span>
+<span class="nc" id="L59">       grid3[2] = 3;</span>
+<span class="nc" id="L60">       grid3[3] = 0;</span>
+<span class="nc" id="L61">       grid3[4] = 4;</span>
+<span class="nc" id="L62">       grid3[5] = 6;</span>
+<span class="nc" id="L63">       grid3[6] = 7;</span>
+<span class="nc" id="L64">       grid3[7] = 5;</span>
+<span class="nc" id="L65">       grid3[8] = 8;</span>
 
         /*AStarState state = new AStarState(grid, 0, 9);
         System.out.println(state.getfValue());
         System.out.println(state.getGValue());*/
-<span class="nc" id="L54">        Solver solver = new Solver();</span>
-<span class="nc" id="L55">        AStarState state = new AStarState(grid, 0, 9, new ArrayList&lt;&gt;());</span>
-<span class="nc" id="L56">        AStarState state2 = new AStarState(grid2, 6, 9 , new ArrayList&lt;&gt;());</span>
-<span class="nc" id="L57">        ArrayList&lt;AStarState&gt; lista= new ArrayList&lt;&gt;();</span>
-<span class="nc" id="L58">        lista.add(state);</span>
+<span class="nc" id="L70">        Solver solver = new Solver();</span>
+<span class="nc" id="L71">        AStarState state = new AStarState(grid, 0, 9, new ArrayList&lt;&gt;());</span>
+<span class="nc" id="L72">        AStarState state2 = new AStarState(grid2, 6, 9 , new ArrayList&lt;&gt;());</span>
+<span class="nc" id="L73">        ArrayList&lt;AStarState&gt; lista= new ArrayList&lt;&gt;();</span>
+<span class="nc" id="L74">        lista.add(state);</span>
 
-<span class="nc bnc" id="L60" title="All 2 branches missed.">        if (lista.contains(state2)) {</span>
-<span class="nc" id="L61">            System.out.println(&quot;kylÃ¤&quot;);</span>
+<span class="nc bnc" id="L76" title="All 2 branches missed.">        if (lista.contains(state2)) {</span>
+<span class="nc" id="L77">            System.out.println(&quot;kylÃ¤&quot;);</span>
         }else {
-<span class="nc" id="L63">            System.out.println(&quot;no&quot;);</span>
+<span class="nc" id="L79">            System.out.println(&quot;no&quot;);</span>
         }
-<span class="nc" id="L65">        System.out.println(&quot;Starting grid in Solver.java: &quot;);</span>
-<span class="nc" id="L66">        System.out.println(solver.getGridAsString());</span>
-<span class="nc" id="L67">        System.out.println(&quot;Grid solver will try to move towards :&quot;);</span>
-<span class="nc" id="L68">        System.out.println(solver.getSolvedAsString());</span>
-<span class="nc" id="L69">        System.out.println(solver.getGridAsString());</span>
-<span class="nc" id="L70">        ArrayList&lt;Integer&gt; solved =solver.solve(grid2);</span>
-<span class="nc bnc" id="L71" title="All 2 branches missed.">        for (Integer move: solved) {</span>
-<span class="nc" id="L72">            System.out.println(move);</span>
-<span class="nc" id="L73">        }</span>
-<span class="nc" id="L74">    }</span>
+<span class="nc" id="L81">        System.out.println(&quot;Starting grid in Solver.java: &quot;);</span>
+<span class="nc" id="L82">        System.out.println(solver.getGridAsString());</span>
+<span class="nc" id="L83">        System.out.println(&quot;Grid solver will try to move towards :&quot;);</span>
+<span class="nc" id="L84">        System.out.println(solver.getSolvedAsString());</span>
+<span class="nc" id="L85">        System.out.println(solver.getGridAsString());</span>
+<span class="nc" id="L86">        ArrayList&lt;Integer&gt; solved =solver.solve(grid);</span>
+<span class="nc bnc" id="L87" title="All 2 branches missed.">        for (int move : solved) {</span>
+<span class="nc" id="L88">            System.out.print(move + &quot;, &quot;);</span>
+<span class="nc" id="L89">        }</span>
+<span class="nc" id="L90">        System.out.println(&quot;\n Amount of moves: &quot; + solved.size());</span>
+
+<span class="nc" id="L92">        CustomPriorityQueue&lt;AStarState&gt; que = new CustomPriorityQueue();</span>
+<span class="nc" id="L93">        AStarState state1 = new AStarState(grid3, 0, 3, new ArrayList&lt;&gt;());</span>
+<span class="nc" id="L94">        int[] grid4 = grid3.clone();</span>
+<span class="nc" id="L95">        grid4[4] = 0;</span>
+<span class="nc" id="L96">        grid4[3] = 4;</span>
+<span class="nc" id="L97">        AStarState state3 = new AStarState(grid4, 1, 4, new ArrayList&lt;&gt;());</span>
+<span class="nc" id="L98">        int[] grid5 = grid3.clone();</span>
+<span class="nc" id="L99">        grid5[4] = 4;</span>
+<span class="nc" id="L100">        grid5[3] = 7;</span>
+<span class="nc" id="L101">        grid5[6] = 0;</span>
+<span class="nc" id="L102">        AStarState state4 = new AStarState(grid5, 1, 6, new ArrayList&lt;&gt;());</span>
+<span class="nc" id="L103">        state4.compareTo(null);</span>
+<span class="nc" id="L104">        System.out.println(&quot;state1: &quot;+ state1);</span>
+<span class="nc" id="L105">        System.out.println(state1.getfValue());</span>
+<span class="nc" id="L106">        System.out.println(&quot;state3: &quot; + state3);</span>
+<span class="nc" id="L107">        System.out.println(state3.getfValue());</span>
+<span class="nc" id="L108">        System.out.println(&quot;state4: &quot; + state4);</span>
+<span class="nc" id="L109">        System.out.println(state4.getfValue());</span>
+<span class="nc" id="L110">        que.add(state4);</span>
+<span class="nc" id="L111">        System.out.println(que);</span>
+<span class="nc" id="L112">        que.add(state3);</span>
+<span class="nc" id="L113">        System.out.println(que);</span>
+<span class="nc" id="L114">        que.add(state1);</span>
+<span class="nc" id="L115">        System.out.println(que);</span>
+<span class="nc" id="L116">        que.poll();</span>
+<span class="nc" id="L117">        System.out.println(que);</span>
+<span class="nc" id="L118">        que.add(state3);</span>
+<span class="nc" id="L119">        System.out.println(que);</span>
+<span class="nc" id="L120">    }</span>
 
     public static int[] setGrid(String gridString) {
-<span class="nc" id="L77">        String[] numbers = gridString.split(&quot;,&quot;);</span>
-<span class="nc" id="L78">        int[] grid = new int[16];</span>
-<span class="nc bnc" id="L79" title="All 2 branches missed.">        for (int i = 0; i &lt; gridString.length(); i++) {</span>
-<span class="nc" id="L80">            grid[i] = Integer.valueOf(numbers[i]);</span>
+<span class="nc" id="L123">        String[] numbers = gridString.split(&quot;,&quot;);</span>
+<span class="nc" id="L124">        int[] grid = new int[16];</span>
+<span class="nc bnc" id="L125" title="All 2 branches missed.">        for (int i = 0; i &lt; gridString.length(); i++) {</span>
+<span class="nc" id="L126">            grid[i] = Integer.valueOf(numbers[i]);</span>
         }
-<span class="nc" id="L82">        return grid;</span>
+<span class="nc" id="L128">        return grid;</span>
     }
 }
 </pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.2.201808211720</span></div></body></html>

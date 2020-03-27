@@ -10,6 +10,7 @@ import java.util.*;
  */
 public class Solver {
     private int gridSize;
+    private PriorityQueue<AStarState> openSet;
 
     public String getGridAsString() {
         return asString(grid);
@@ -53,7 +54,7 @@ public class Solver {
      * @return returns the list of moves for solution
      */
     private ArrayList<Integer> findSolution (int[] currGrid, int currPos) {
-        PriorityQueue<AStarState> openSet = new PriorityQueue<>();
+        this.openSet = new PriorityQueue<>();
         ArrayList<AStarState> closedSet = new ArrayList<>();
         openSet.add(new AStarState(currGrid, 0, currPos, new ArrayList<>()));
 
@@ -65,20 +66,10 @@ public class Solver {
             }
             System.out.println(currentState.getfValue());
             ArrayDeque<AStarState> validSteps = checkValidSteps(currentState);
-            /*System.out.println("Open state; \n");
-            for (AStarState state : openSet) {
-                System.out.print(asString(state.getState()) + ", fvalue: " + state.getfValue()  + " \n");
-            }
-            System.out.println("Closed state: \n");
-            for (AStarState state : closedSet) {
-                System.out.print(asString(state.getState())+ ", \n");
-            }*/
+
             while (!validSteps.isEmpty()) {
                 AStarState nextStep = validSteps.poll();
-                //System.out.println("Current step: " + nextStep);
-                //System.out.println("Current state: \n" + asString(newGrid));
-                //System.out.println(newState.getfValue());
-                    openSet.add(nextStep);
+                openSet.add(nextStep);
             }
         }
         return null;
@@ -89,42 +80,62 @@ public class Solver {
      * @param state the current state of the board
      * @return returns a queue with all the valid steps
      */
-    private ArrayDeque<AStarState> checkValidSteps (AStarState state) {
+    public ArrayDeque<AStarState> checkValidSteps (AStarState state) {
         ArrayDeque<AStarState> validSteps = new ArrayDeque<>();
         int currPos = state.getCurrPos();
-       // System.out.println("currpos 1: " + currPos);
-        if ((currPos-1)%gridSize < currPos%gridSize && currPos > 0 && (state.getParent() == null || (currPos-1) != state.getParent().getCurrPos())) {
-            AStarState newState = new AStarState(state.getState(), state.getGValue()+1, state.getCurrPos(), state.getMoves());
+        if (checkLeft(state, currPos)) {
+            ArrayList<Integer> moves = (ArrayList<Integer>) state.getMoves().clone();
+            AStarState newState = new AStarState(state.getState(), state.getGValue()+1, state.getCurrPos(), moves);
             newState.setParent(state);
             newState.makeMove((currPos-1), currPos);
-           // System.out.println("curr pos : " + currPos);
-           // System.out.println("new state \n" + asString(newState.getState()));
-
             validSteps.add(newState);
         }
-        if ((currPos+1)%gridSize > currPos%gridSize && currPos < grid.length-1 && (state.getParent() == null || (currPos+1) != state.getParent().getCurrPos())) {
-            AStarState newState = new AStarState(state.getState(), state.getGValue()+1, state.getCurrPos(), state.getMoves());
+        if (checkRight(state, currPos)) {
+            ArrayList<Integer> moves = (ArrayList<Integer>) state.getMoves().clone();
+            AStarState newState = new AStarState(state.getState(), state.getGValue()+1, state.getCurrPos(), moves);
             newState.setParent(state);
             newState.makeMove((currPos+1), currPos);
-           // System.out.println("new state \n" + asString(newState.getState()));
             validSteps.add(newState);
         }
-        if (currPos+gridSize < grid.length && (state.getParent() == null || currPos+gridSize != state.getParent().getCurrPos())) {
-            AStarState newState = new AStarState(state.getState(), state.getGValue()+1, state.getCurrPos(), state.getMoves());
+        if (checkDown(state, currPos)) {
+            ArrayList<Integer> moves = (ArrayList<Integer>) state.getMoves().clone();
+            AStarState newState = new AStarState(state.getState(), state.getGValue() + 1, state.getCurrPos(), moves);
             newState.setParent(state);
-            newState.makeMove(currPos+gridSize, currPos);
-           // System.out.println("new state \n" + asString(newState.getState()));
+            newState.makeMove(currPos + gridSize, currPos);
+            // System.out.println("new state \n" + asString(newState.getState()));
             validSteps.add(newState);
         }
-
-        if (currPos-gridSize >= 0 && ( state.getParent() == null ||(currPos-gridSize) != state.getParent().getCurrPos())) {
-            AStarState newState = new AStarState(state.getState(), state.getGValue()+1, state.getCurrPos(), state.getMoves());
+        if (checkUp(state, currPos)) {
+            ArrayList<Integer> moves = (ArrayList<Integer>) state.getMoves().clone();
+            AStarState newState = new AStarState(state.getState(), state.getGValue()+1, state.getCurrPos(), moves);
             newState.setParent(state);
             newState.makeMove( currPos-gridSize, currPos);
             //System.out.println("new state \n" + asString(newState.getState()));
             validSteps.add(newState);
         }
         return validSteps;
+    }
+
+    public Boolean checkLeft(AStarState state, int currPos) {
+        return ((currPos-1)%gridSize < currPos%gridSize && currPos > 0 && (state.getParent() == null || (currPos-1) != state.getParent().getCurrPos()));
+    }
+
+    public Boolean checkRight(AStarState state, int currPos) {
+        return ((currPos+1)%gridSize > currPos%gridSize && currPos < grid.length-1 && (state.getParent() == null || (currPos+1) != state.getParent().getCurrPos()));
+    }
+    public Boolean checkDown(AStarState state, int currPos) {
+        return (currPos+gridSize < grid.length && (state.getParent() == null || currPos+gridSize != state.getParent().getCurrPos()));
+    }
+
+    public Boolean checkUp(AStarState state, int currPos) {
+        return (currPos-gridSize >= 0 && ( state.getParent() == null ||(currPos-gridSize) != state.getParent().getCurrPos()));
+    }
+
+    public void setGridSize(int size) {
+        this.gridSize = size;
+    }
+    public void setGrid(int[] grid) {
+        this.grid = grid;
     }
 
     /**
