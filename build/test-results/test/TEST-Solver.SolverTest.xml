@@ -1,40 +1,17 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<testsuite name="Solver.SolverTest" tests="11" skipped="0" failures="0" errors="0" timestamp="2020-03-27T16:23:34" hostname="Sami-PC" time="0.01">
+<testsuite name="Solver.SolverTest" tests="11" skipped="0" failures="0" errors="0" timestamp="2020-04-03T13:08:20" hostname="Sami-PC" time="0.002">
   <properties/>
   <testcase name="getSolvedAsString" classname="Solver.SolverTest" time="0.0"/>
   <testcase name="checkUpWorksWhenLegal" classname="Solver.SolverTest" time="0.0"/>
   <testcase name="checkRightDoesntWorkWhenIllegal" classname="Solver.SolverTest" time="0.0"/>
   <testcase name="checkUpDoesntWorkWhenIllegal" classname="Solver.SolverTest" time="0.0"/>
-  <testcase name="solveWorks" classname="Solver.SolverTest" time="0.007"/>
+  <testcase name="solveWorks" classname="Solver.SolverTest" time="0.0"/>
   <testcase name="checkLeftDoesntWorkWhenIllegal" classname="Solver.SolverTest" time="0.0"/>
   <testcase name="solve" classname="Solver.SolverTest" time="0.0"/>
-  <testcase name="checkDownWorksWhenLegal" classname="Solver.SolverTest" time="0.001"/>
+  <testcase name="checkDownWorksWhenLegal" classname="Solver.SolverTest" time="0.0"/>
   <testcase name="checkLeftWorksWhenLegal" classname="Solver.SolverTest" time="0.0"/>
   <testcase name="checkRightWorksWhenLegal" classname="Solver.SolverTest" time="0.0"/>
   <testcase name="checkDownDoesntWorkWhenIllegal" classname="Solver.SolverTest" time="0.0"/>
-  <system-out><![CDATA[set
-1,2,3,
-0,4,6,
-7,5,8,
-
-9
-set
-1,2,3,
-4,0,6,
-7,5,8,
-
-7
-set
-1,2,3,
-4,5,6,
-7,0,8,
-
-5
-set
-1,2,3,
-4,5,6,
-7,8,0,
-
-]]></system-out>
+  <system-out><![CDATA[]]></system-out>
   <system-err><![CDATA[]]></system-err>
 </testsuite>

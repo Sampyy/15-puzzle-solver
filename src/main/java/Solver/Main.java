@@ -83,11 +83,24 @@ public class Main {
         System.out.println("Grid solver will try to move towards :");
         System.out.println(solver.getSolvedAsString());
         System.out.println(solver.getGridAsString());
+
+
+
+
+
+
+
         ArrayList<Integer> solved =solver.solve(grid);
         for (int move : solved) {
             System.out.print(move + ", ");
         }
         System.out.println("\n Amount of moves: " + solved.size());
+
+
+
+
+
+
 
         CustomPriorityQueue<AStarState> que = new CustomPriorityQueue();
         AStarState state1 = new AStarState(grid3, 0, 3, new ArrayList<>());

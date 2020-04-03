@@ -139,7 +139,7 @@ public class AStarState implements Comparable<AStarState> {
     /**
      * Comparison using fvalue as the means of comparing
      * @param state the state to compare to
-     * @return lower fvalue
+     * @return negative if current state fvalue < fvalue of object to compare to
      */
     @Override
     public int compareTo(AStarState state) {
@@ -147,6 +147,11 @@ public class AStarState implements Comparable<AStarState> {
             return 0;
         }
         return this.fValue - state.getfValue();
+    }
+
+    @Override
+    public String toString() {
+        return String.valueOf(this.fValue);
     }
 
     public String toString(int[] gridToReturn) {
