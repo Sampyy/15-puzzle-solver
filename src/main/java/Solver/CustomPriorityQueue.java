@@ -9,7 +9,7 @@ public class CustomPriorityQueue<O> {
     }
 
     public void add(O o) {
-        if (nextFreeSpot >= list.length) {
+        if (nextFreeSpot >= list.length-1) {
             grow();
         }
         if (nextFreeSpot == 1) {
@@ -38,7 +38,7 @@ public class CustomPriorityQueue<O> {
             return returnObject;
         }
         list[nextFreeSpot-1] = null;
-        while(currentObject*2 < list.length && list[currentObject*2] != null && (objectToShiftDown.compareTo((O) list[currentObject*2]) > 0 || (list[currentObject*2+1] != null && objectToShiftDown.compareTo((O) list[currentObject*+2]) > 1))) {
+        while(currentObject*2 < list.length && list[currentObject*2] != null && (objectToShiftDown.compareTo((O) list[currentObject*2]) > 0 || (list[currentObject*2+1] != null && objectToShiftDown.compareTo((O) list[currentObject*2+1]) > 1))) {
             int nextSpot = 0;
             if (list[currentObject*2+1] != null && ((Comparable<O>) list[currentObject*2]).compareTo((O) list[currentObject*2+1]) > 0) {
                 nextSpot = currentObject*2+1;
@@ -54,7 +54,7 @@ public class CustomPriorityQueue<O> {
     }
 
     public void grow() {
-        int newLength = (int) (1.2*list.length);
+        int newLength = (int) (1.5*list.length);
         Object[] newList = new Object[newLength];
         for (int i = 0; i < list.length; i++) {
             newList[i] = list[i];

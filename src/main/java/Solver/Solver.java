@@ -72,8 +72,12 @@ public class Solver {
             while (!validSteps.isEmpty()) {
                 AStarState nextStep = validSteps.poll();
                 //System.out.print("\nAdding step: " + nextStep.toString());
+                //System.out.println("\nState numbers: ");
+                /*for(int i = 0; i < openSet.size(); i++) {
+                    System.out.print(openSet.get(i) + ", ");
+                }*/
                 openSet.add(nextStep);
-                /*System.out.println("\nState numbers: ");
+                /*System.out.println("\nState numbers after: ");
                 for(int i = 0; i < openSet.size(); i++) {
                     System.out.print(openSet.get(i) + ", ");
                 }*/

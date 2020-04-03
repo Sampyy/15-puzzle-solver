@@ -90,7 +90,7 @@ public class Main {
 
 
 
-        ArrayList<Integer> solved =solver.solve(grid);
+        ArrayList<Integer> solved =solver.solve(grid2);
         for (int move : solved) {
             System.out.print(move + ", ");
         }
@@ -130,6 +130,7 @@ public class Main {
         System.out.println(que);
         que.add(state3);
         System.out.println(que);
+        System.out.println(solver.checkLeft(state, 12));
     }
 
     public static int[] setGrid(String gridString) {
