@@ -11,7 +11,7 @@ import java.util.*;
 public class Solver {
     private int gridSize;
     private CustomPriorityQueue<AStarState> openSet;
-    private ArrayDeque<AStarState> validSteps;
+    private CustomArrayQueue<AStarState> validSteps;
 
     public String getGridAsString() {
         return asString(grid);
@@ -56,31 +56,18 @@ public class Solver {
      */
     private ArrayList<Integer> findSolution (int[] currGrid, int currPos) {
         this.openSet = new CustomPriorityQueue();
-        ArrayList<AStarState> closedSet = new ArrayList<>();
         openSet.add(new AStarState(currGrid, 0, currPos, new ArrayList<>()));
-        this.validSteps = new ArrayDeque<>();
+        this.validSteps = new CustomArrayQueue(5);
 
         while(!openSet.isEmpty()) {
             AStarState currentState = openSet.poll();
-            //System.out.println("set\n" + asString(currentState.getState()));
             if (Arrays.equals(currentState.getState(), solved)) {
                 return currentState.getMoves();
             }
-            //System.out.println(currentState.getfValue());
             checkValidSteps(currentState);
-            //System.out.print("Adding states: ");
             while (!validSteps.isEmpty()) {
                 AStarState nextStep = validSteps.poll();
-                //System.out.print("\nAdding step: " + nextStep.toString());
-                //System.out.println("\nState numbers: ");
-                /*for(int i = 0; i < openSet.size(); i++) {
-                    System.out.print(openSet.get(i) + ", ");
-                }*/
                 openSet.add(nextStep);
-                /*System.out.println("\nState numbers after: ");
-                for(int i = 0; i < openSet.size(); i++) {
-                    System.out.print(openSet.get(i) + ", ");
-                }*/
             }
         }
         return null;
@@ -91,7 +78,7 @@ public class Solver {
      * @param state the current state of the board
      * @return returns a queue with all the valid steps
      */
-    public ArrayDeque<AStarState> checkValidSteps (AStarState state)  {
+    public CustomArrayQueue<AStarState> checkValidSteps (AStarState state)  {
         int currPos = state.getCurrPos();
         if (checkLeft(state, currPos)) {
             ArrayList<Integer> moves = (ArrayList<Integer>) state.getMoves().clone();

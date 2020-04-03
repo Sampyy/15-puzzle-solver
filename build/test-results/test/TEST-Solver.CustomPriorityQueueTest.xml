@@ -1,14 +1,14 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<testsuite name="Solver.CustomPriorityQueueTest" tests="11" skipped="0" failures="0" errors="0" timestamp="2020-04-03T13:08:20" hostname="Sami-PC" time="0.003">
+<testsuite name="Solver.CustomPriorityQueueTest" tests="11" skipped="0" failures="0" errors="0" timestamp="2020-04-03T15:26:39" hostname="Sami-PC" time="0.003">
   <properties/>
-  <testcase name="growWorks" classname="Solver.CustomPriorityQueueTest" time="0.001"/>
+  <testcase name="growWorks" classname="Solver.CustomPriorityQueueTest" time="0.002"/>
   <testcase name="addWorksForTwo" classname="Solver.CustomPriorityQueueTest" time="0.0"/>
   <testcase name="pollWorksForFourInverted" classname="Solver.CustomPriorityQueueTest" time="0.0"/>
   <testcase name="addWorksForTwoSecondSmaller" classname="Solver.CustomPriorityQueueTest" time="0.0"/>
   <testcase name="addWorksForFirst" classname="Solver.CustomPriorityQueueTest" time="0.0"/>
   <testcase name="addWorksForThree" classname="Solver.CustomPriorityQueueTest" time="0.0"/>
   <testcase name="pollWorksForOne" classname="Solver.CustomPriorityQueueTest" time="0.0"/>
-  <testcase name="pollWorksForSix" classname="Solver.CustomPriorityQueueTest" time="0.001"/>
+  <testcase name="pollWorksForSix" classname="Solver.CustomPriorityQueueTest" time="0.0"/>
   <testcase name="pollWorksForTwo" classname="Solver.CustomPriorityQueueTest" time="0.0"/>
   <testcase name="pollWorksForFour" classname="Solver.CustomPriorityQueueTest" time="0.0"/>
   <testcase name="isEmpty" classname="Solver.CustomPriorityQueueTest" time="0.0"/>

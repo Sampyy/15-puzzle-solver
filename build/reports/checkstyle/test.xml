@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<checkstyle version="8.12">
+<file name="C:\Users\Sami\15-puzzle-solver\src\test\java\Solver\AStarStateTest.java">
+</file>
+<file name="C:\Users\Sami\15-puzzle-solver\src\test\java\Solver\CustomPriorityQueueTest.java">
+</file>
+<file name="C:\Users\Sami\15-puzzle-solver\src\test\java\Solver\SolverTest.java">
+<error line="140" column="5" severity="warning" message="Metodin pituus on 24 riviä (suurin sallittu on 20)." source="com.puppycrawl.tools.checkstyle.checks.sizes.MethodLengthCheck"/>
+</file>
+</checkstyle>

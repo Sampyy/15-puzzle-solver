@@ -1,4 +1,4 @@
-## Viikkoraportti 2
+## Viikkoraportti 3
 
 Refaktoroin koodia valmiissa olevissa luokissa, ja aloitin prioriteettijonon oman toteutuksen. Jonossa on selvästi vielä jotain vikaa, koska sen kanssa ongelman ratkaisu on huomattavasti hitaampaa
 , mutta muutamilla tehdyillä kokeiluilla se vaikuttaisi toimivan halutulla tavalla, tosin testeissä oli vain muutamia muuttujia.

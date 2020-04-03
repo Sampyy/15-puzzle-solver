@@ -10,23 +10,24 @@ import java.util.*;
  */
 public class Solver {
     private int gridSize;
-    private PriorityQueue&lt;AStarState&gt; openSet;
+    private CustomPriorityQueue&lt;AStarState&gt; openSet;
+    private CustomArrayQueue&lt;AStarState&gt; validSteps;
 
     public String getGridAsString() {
-<span class="nc" id="L16">        return asString(grid);</span>
+<span class="nc" id="L17">        return asString(grid);</span>
     }
 
     private int[] grid;
     private int startingPos;
 
     public String getSolvedAsString() {
-<span class="nc" id="L23">        return asString(solved);</span>
+<span class="nc" id="L24">        return asString(solved);</span>
     }
 
     private int[] solved;
 
-<span class="fc" id="L28">    public Solver() {</span>
-<span class="fc" id="L29">    }</span>
+<span class="fc" id="L29">    public Solver() {</span>
+<span class="fc" id="L30">    }</span>
 
     /**
      *
@@ -34,17 +35,17 @@ public class Solver {
      * @return returns a list of moves for completion
      */
     public ArrayList&lt;Integer&gt; solve(int[] grid) {
-<span class="fc" id="L37">        this.grid = grid;</span>
-<span class="fc" id="L38">        this.gridSize = (int) Math.sqrt(grid.length);</span>
-<span class="fc" id="L39">        this.solved = new int[grid.length];</span>
-<span class="fc bfc" id="L40" title="All 2 branches covered.">        for (int i = 0; i &lt; grid.length; i++) {</span>
-<span class="fc" id="L41">            solved[i] = i+1;</span>
-<span class="fc bfc" id="L42" title="All 2 branches covered.">            if (grid[i] == 0) {</span>
-<span class="fc" id="L43">                startingPos = i;</span>
+<span class="fc" id="L38">        this.grid = grid;</span>
+<span class="fc" id="L39">        this.gridSize = (int) Math.sqrt(grid.length);</span>
+<span class="fc" id="L40">        this.solved = new int[grid.length];</span>
+<span class="fc bfc" id="L41" title="All 2 branches covered.">        for (int i = 0; i &lt; grid.length; i++) {</span>
+<span class="fc" id="L42">            solved[i] = i+1;</span>
+<span class="fc bfc" id="L43" title="All 2 branches covered.">            if (grid[i] == 0) {</span>
+<span class="fc" id="L44">                startingPos = i;</span>
             }
         }
-<span class="fc" id="L46">        solved[grid.length-1] = 0;</span>
-<span class="fc" id="L47">        return findSolution(grid, startingPos);</span>
+<span class="fc" id="L47">        solved[grid.length-1] = 0;</span>
+<span class="fc" id="L48">        return findSolution(grid, startingPos);</span>
     }
 
     /**
@@ -54,25 +55,34 @@ public class Solver {
      * @return returns the list of moves for solution
      */
     private ArrayList&lt;Integer&gt; findSolution (int[] currGrid, int currPos) {
-<span class="fc" id="L57">        this.openSet = new PriorityQueue&lt;&gt;();</span>
-<span class="fc" id="L58">        ArrayList&lt;AStarState&gt; closedSet = new ArrayList&lt;&gt;();</span>
+<span class="fc" id="L58">        this.openSet = new CustomPriorityQueue();</span>
 <span class="fc" id="L59">        openSet.add(new AStarState(currGrid, 0, currPos, new ArrayList&lt;&gt;()));</span>
+<span class="fc" id="L60">        this.validSteps = new CustomArrayQueue(5);</span>
 
-<span class="pc bpc" id="L61" title="1 of 2 branches missed.">        while(!openSet.isEmpty()) {</span>
-<span class="fc" id="L62">            AStarState currentState = openSet.poll();</span>
-<span class="fc" id="L63">            System.out.println(&quot;set\n&quot; + asString(currentState.getState()));</span>
-<span class="fc bfc" id="L64" title="All 2 branches covered.">            if (Arrays.equals(currentState.getState(), solved)) {</span>
-<span class="fc" id="L65">                return currentState.getMoves();</span>
+<span class="pc bpc" id="L62" title="1 of 2 branches missed.">        while(!openSet.isEmpty()) {</span>
+<span class="fc" id="L63">            AStarState currentState = openSet.poll();</span>
+            //System.out.println(&quot;set\n&quot; + asString(currentState.getState()));
+<span class="fc bfc" id="L65" title="All 2 branches covered.">            if (Arrays.equals(currentState.getState(), solved)) {</span>
+<span class="fc" id="L66">                return currentState.getMoves();</span>
             }
-<span class="fc" id="L67">            System.out.println(currentState.getfValue());</span>
-<span class="fc" id="L68">            ArrayDeque&lt;AStarState&gt; validSteps = checkValidSteps(currentState);</span>
-
-<span class="fc bfc" id="L70" title="All 2 branches covered.">            while (!validSteps.isEmpty()) {</span>
-<span class="fc" id="L71">                AStarState nextStep = validSteps.poll();</span>
-<span class="fc" id="L72">                openSet.add(nextStep);</span>
-<span class="fc" id="L73">            }</span>
-<span class="fc" id="L74">        }</span>
-<span class="nc" id="L75">        return null;</span>
+            //System.out.println(currentState.getfValue());
+<span class="fc" id="L69">            checkValidSteps(currentState);</span>
+            //System.out.print(&quot;Adding states: &quot;);
+<span class="fc bfc" id="L71" title="All 2 branches covered.">            while (!validSteps.isEmpty()) {</span>
+<span class="fc" id="L72">                AStarState nextStep = validSteps.poll();</span>
+                //System.out.print(&quot;\nAdding step: &quot; + nextStep.toString());
+                //System.out.println(&quot;\nState numbers: &quot;);
+                /*for(int i = 0; i &lt; openSet.size(); i++) {
+                    System.out.print(openSet.get(i) + &quot;, &quot;);
+                }*/
+<span class="fc" id="L78">                openSet.add(nextStep);</span>
+                /*System.out.println(&quot;\nState numbers after: &quot;);
+                for(int i = 0; i &lt; openSet.size(); i++) {
+                    System.out.print(openSet.get(i) + &quot;, &quot;);
+                }*/
+<span class="fc" id="L83">            }</span>
+<span class="fc" id="L84">        }</span>
+<span class="nc" id="L85">        return null;</span>
     }
 
     /**
@@ -80,63 +90,62 @@ public class Solver {
      * @param state the current state of the board
      * @return returns a queue with all the valid steps
      */
-    public ArrayDeque&lt;AStarState&gt; checkValidSteps (AStarState state) {
-<span class="fc" id="L84">        ArrayDeque&lt;AStarState&gt; validSteps = new ArrayDeque&lt;&gt;();</span>
-<span class="fc" id="L85">        int currPos = state.getCurrPos();</span>
-<span class="fc bfc" id="L86" title="All 2 branches covered.">        if (checkLeft(state, currPos)) {</span>
-<span class="fc" id="L87">            ArrayList&lt;Integer&gt; moves = (ArrayList&lt;Integer&gt;) state.getMoves().clone();</span>
-<span class="fc" id="L88">            AStarState newState = new AStarState(state.getState(), state.getGValue()+1, state.getCurrPos(), moves);</span>
-<span class="fc" id="L89">            newState.setParent(state);</span>
-<span class="fc" id="L90">            newState.makeMove((currPos-1), currPos);</span>
-<span class="fc" id="L91">            validSteps.add(newState);</span>
+    public CustomArrayQueue&lt;AStarState&gt; checkValidSteps (AStarState state)  {
+<span class="fc" id="L94">        int currPos = state.getCurrPos();</span>
+<span class="fc bfc" id="L95" title="All 2 branches covered.">        if (checkLeft(state, currPos)) {</span>
+<span class="fc" id="L96">            ArrayList&lt;Integer&gt; moves = (ArrayList&lt;Integer&gt;) state.getMoves().clone();</span>
+<span class="fc" id="L97">            AStarState newState = new AStarState(state.getState(), state.getGValue()+1, state.getCurrPos(), moves);</span>
+<span class="fc" id="L98">            newState.setParent(state);</span>
+<span class="fc" id="L99">            newState.makeMove((currPos-1), currPos);</span>
+<span class="fc" id="L100">            validSteps.add(newState);</span>
         }
-<span class="pc bpc" id="L93" title="1 of 2 branches missed.">        if (checkRight(state, currPos)) {</span>
-<span class="fc" id="L94">            ArrayList&lt;Integer&gt; moves = (ArrayList&lt;Integer&gt;) state.getMoves().clone();</span>
-<span class="fc" id="L95">            AStarState newState = new AStarState(state.getState(), state.getGValue()+1, state.getCurrPos(), moves);</span>
-<span class="fc" id="L96">            newState.setParent(state);</span>
-<span class="fc" id="L97">            newState.makeMove((currPos+1), currPos);</span>
-<span class="fc" id="L98">            validSteps.add(newState);</span>
+<span class="pc bpc" id="L102" title="1 of 2 branches missed.">        if (checkRight(state, currPos)) {</span>
+<span class="fc" id="L103">            ArrayList&lt;Integer&gt; moves = (ArrayList&lt;Integer&gt;) state.getMoves().clone();</span>
+<span class="fc" id="L104">            AStarState newState = new AStarState(state.getState(), state.getGValue()+1, state.getCurrPos(), moves);</span>
+<span class="fc" id="L105">            newState.setParent(state);</span>
+<span class="fc" id="L106">            newState.makeMove((currPos+1), currPos);</span>
+<span class="fc" id="L107">            validSteps.add(newState);</span>
         }
-<span class="fc bfc" id="L100" title="All 2 branches covered.">        if (checkDown(state, currPos)) {</span>
-<span class="fc" id="L101">            ArrayList&lt;Integer&gt; moves = (ArrayList&lt;Integer&gt;) state.getMoves().clone();</span>
-<span class="fc" id="L102">            AStarState newState = new AStarState(state.getState(), state.getGValue() + 1, state.getCurrPos(), moves);</span>
-<span class="fc" id="L103">            newState.setParent(state);</span>
-<span class="fc" id="L104">            newState.makeMove(currPos + gridSize, currPos);</span>
+<span class="fc bfc" id="L109" title="All 2 branches covered.">        if (checkDown(state, currPos)) {</span>
+<span class="fc" id="L110">            ArrayList&lt;Integer&gt; moves = (ArrayList&lt;Integer&gt;) state.getMoves().clone();</span>
+<span class="fc" id="L111">            AStarState newState = new AStarState(state.getState(), state.getGValue() + 1, state.getCurrPos(), moves);</span>
+<span class="fc" id="L112">            newState.setParent(state);</span>
+<span class="fc" id="L113">            newState.makeMove(currPos + gridSize, currPos);</span>
             // System.out.println(&quot;new state \n&quot; + asString(newState.getState()));
-<span class="fc" id="L106">            validSteps.add(newState);</span>
+<span class="fc" id="L115">            validSteps.add(newState);</span>
         }
-<span class="fc bfc" id="L108" title="All 2 branches covered.">        if (checkUp(state, currPos)) {</span>
-<span class="fc" id="L109">            ArrayList&lt;Integer&gt; moves = (ArrayList&lt;Integer&gt;) state.getMoves().clone();</span>
-<span class="fc" id="L110">            AStarState newState = new AStarState(state.getState(), state.getGValue()+1, state.getCurrPos(), moves);</span>
-<span class="fc" id="L111">            newState.setParent(state);</span>
-<span class="fc" id="L112">            newState.makeMove( currPos-gridSize, currPos);</span>
+<span class="fc bfc" id="L117" title="All 2 branches covered.">        if (checkUp(state, currPos)) {</span>
+<span class="fc" id="L118">            ArrayList&lt;Integer&gt; moves = (ArrayList&lt;Integer&gt;) state.getMoves().clone();</span>
+<span class="fc" id="L119">            AStarState newState = new AStarState(state.getState(), state.getGValue()+1, state.getCurrPos(), moves);</span>
+<span class="fc" id="L120">            newState.setParent(state);</span>
+<span class="fc" id="L121">            newState.makeMove( currPos-gridSize, currPos);</span>
             //System.out.println(&quot;new state \n&quot; + asString(newState.getState()));
-<span class="fc" id="L114">            validSteps.add(newState);</span>
+<span class="fc" id="L123">            validSteps.add(newState);</span>
         }
-<span class="fc" id="L116">        return validSteps;</span>
+<span class="fc" id="L125">        return validSteps;</span>
     }
 
     public Boolean checkLeft(AStarState state, int currPos) {
-<span class="pc bpc" id="L120" title="1 of 8 branches missed.">        return ((currPos-1)%gridSize &lt; currPos%gridSize &amp;&amp; currPos &gt; 0 &amp;&amp; (state.getParent() == null || (currPos-1) != state.getParent().getCurrPos()));</span>
+<span class="pc bpc" id="L129" title="1 of 8 branches missed.">        return ((currPos-1)%gridSize &lt; currPos%gridSize &amp;&amp; currPos &gt; 0 &amp;&amp; (state.getParent() == null || (currPos-1) != state.getParent().getCurrPos()));</span>
     }
 
     public Boolean checkRight(AStarState state, int currPos) {
-<span class="pc bpc" id="L124" title="2 of 8 branches missed.">        return ((currPos+1)%gridSize &gt; currPos%gridSize &amp;&amp; currPos &lt; grid.length-1 &amp;&amp; (state.getParent() == null || (currPos+1) != state.getParent().getCurrPos()));</span>
+<span class="pc bpc" id="L133" title="2 of 8 branches missed.">        return ((currPos+1)%gridSize &gt; currPos%gridSize &amp;&amp; currPos &lt; grid.length-1 &amp;&amp; (state.getParent() == null || (currPos+1) != state.getParent().getCurrPos()));</span>
     }
     public Boolean checkDown(AStarState state, int currPos) {
-<span class="pc bpc" id="L127" title="1 of 6 branches missed.">        return (currPos+gridSize &lt; grid.length &amp;&amp; (state.getParent() == null || currPos+gridSize != state.getParent().getCurrPos()));</span>
+<span class="pc bpc" id="L136" title="1 of 6 branches missed.">        return (currPos+gridSize &lt; grid.length &amp;&amp; (state.getParent() == null || currPos+gridSize != state.getParent().getCurrPos()));</span>
     }
 
     public Boolean checkUp(AStarState state, int currPos) {
-<span class="fc bfc" id="L131" title="All 6 branches covered.">        return (currPos-gridSize &gt;= 0 &amp;&amp; ( state.getParent() == null ||(currPos-gridSize) != state.getParent().getCurrPos()));</span>
+<span class="fc bfc" id="L140" title="All 6 branches covered.">        return (currPos-gridSize &gt;= 0 &amp;&amp; ( state.getParent() == null ||(currPos-gridSize) != state.getParent().getCurrPos()));</span>
     }
 
     public void setGridSize(int size) {
-<span class="fc" id="L135">        this.gridSize = size;</span>
-<span class="fc" id="L136">    }</span>
+<span class="fc" id="L144">        this.gridSize = size;</span>
+<span class="fc" id="L145">    }</span>
     public void setGrid(int[] grid) {
-<span class="fc" id="L138">        this.grid = grid;</span>
-<span class="fc" id="L139">    }</span>
+<span class="fc" id="L147">        this.grid = grid;</span>
+<span class="fc" id="L148">    }</span>
 
     /**
      * used to make the move, moved to AStarState
@@ -159,14 +168,14 @@ public class Solver {
      * @return
      */
     public String asString(int[] gridToReturn) {
-<span class="fc" id="L162">        String stringToReturn = new String();</span>
-<span class="fc bfc" id="L163" title="All 2 branches covered.">        for(int i = 0; i &lt; gridSize; i++) {</span>
-<span class="fc bfc" id="L164" title="All 2 branches covered.">            for(int j = 0; j &lt; gridSize; j++) {</span>
-<span class="fc" id="L165">                stringToReturn+= gridToReturn[i*gridSize+j] + &quot;,&quot;;</span>
+<span class="nc" id="L171">        String stringToReturn = new String();</span>
+<span class="nc bnc" id="L172" title="All 2 branches missed.">        for(int i = 0; i &lt; gridSize; i++) {</span>
+<span class="nc bnc" id="L173" title="All 2 branches missed.">            for(int j = 0; j &lt; gridSize; j++) {</span>
+<span class="nc" id="L174">                stringToReturn+= gridToReturn[i*gridSize+j] + &quot;,&quot;;</span>
             }
-<span class="fc" id="L167">            stringToReturn += &quot;\n&quot;;</span>
+<span class="nc" id="L176">            stringToReturn += &quot;\n&quot;;</span>
         }
-<span class="fc" id="L169">        return stringToReturn;</span>
+<span class="nc" id="L178">        return stringToReturn;</span>
     }
 }
 </pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.2.201808211720</span></div></body></html>

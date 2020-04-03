@@ -139,7 +139,7 @@ public class AStarState implements Comparable&lt;AStarState&gt; {
     /**
      * Comparison using fvalue as the means of comparing
      * @param state the state to compare to
-     * @return lower fvalue
+     * @return negative if current state fvalue &lt; fvalue of object to compare to
      */
     @Override
     public int compareTo(AStarState state) {
@@ -149,15 +149,20 @@ public class AStarState implements Comparable&lt;AStarState&gt; {
 <span class="fc" id="L149">        return this.fValue - state.getfValue();</span>
     }
 
+    @Override
+    public String toString() {
+<span class="nc" id="L154">        return String.valueOf(this.fValue);</span>
+    }
+
     public String toString(int[] gridToReturn) {
-<span class="nc" id="L153">        String stringToReturn = new String();</span>
-<span class="nc bnc" id="L154" title="All 2 branches missed.">        for(int i = 0; i &lt; 4; i++) {</span>
-<span class="nc bnc" id="L155" title="All 2 branches missed.">            for(int j = 0; j &lt; 4; j++) {</span>
-<span class="nc" id="L156">                stringToReturn+= gridToReturn[i*4+j] + &quot;,&quot;;</span>
+<span class="nc" id="L158">        String stringToReturn = new String();</span>
+<span class="nc bnc" id="L159" title="All 2 branches missed.">        for(int i = 0; i &lt; 4; i++) {</span>
+<span class="nc bnc" id="L160" title="All 2 branches missed.">            for(int j = 0; j &lt; 4; j++) {</span>
+<span class="nc" id="L161">                stringToReturn+= gridToReturn[i*4+j] + &quot;,&quot;;</span>
             }
-<span class="nc" id="L158">            stringToReturn += &quot;\n&quot;;</span>
+<span class="nc" id="L163">            stringToReturn += &quot;\n&quot;;</span>
         }
-<span class="nc" id="L160">        return stringToReturn;</span>
+<span class="nc" id="L165">        return stringToReturn;</span>
     }
 
 }

@@ -139,7 +139,7 @@ public class CustomPriorityQueueTest {
             queue.add(new comparableInteger(i));
         }
 
-        assertEquals("null12345678910nullnullnullnullnullnullnullnullnull", queue.toString());
+        assertEquals("null12345678910nullnullnullnull", queue.toString());
     }
 
     @Test
