@@ -1,7 +1,8 @@
 package Solver;
-import jdk.nashorn.internal.ir.debug.ASTWriter;
-
-import java.util.ArrayList;
+import Solver.AStarSolver.AStarState;
+import Solver.AStarSolver.Solver;
+import Solver.DataStructures.CustomPriorityQueue;
+import Solver.DataStructures.CustomArrayList;
 
 public class Main {
     public static void main(String[] args) {
@@ -68,9 +69,9 @@ public class Main {
         System.out.println(state.getfValue());
         System.out.println(state.getGValue());*/
         Solver solver = new Solver();
-        AStarState state = new AStarState(grid, 0, 9, new ArrayList<>());
-        AStarState state2 = new AStarState(grid2, 6, 9 , new ArrayList<>());
-        ArrayList<AStarState> lista= new ArrayList<>();
+        AStarState state = new AStarState(grid, 0, 9, new CustomArrayList());
+        AStarState state2 = new AStarState(grid2, 6, 9 , new CustomArrayList<>());
+        CustomArrayList<AStarState> lista= new CustomArrayList<>();
         lista.add(state);
 
         if (lista.contains(state2)) {
@@ -90,7 +91,7 @@ public class Main {
 
 
 
-        ArrayList<Integer> solved =solver.solve(grid2);
+        CustomArrayList<Integer> solved =solver.solve(grid2);
         for (int move : solved) {
             System.out.print(move + ", ");
         }
@@ -103,16 +104,16 @@ public class Main {
 
 
         CustomPriorityQueue<AStarState> que = new CustomPriorityQueue();
-        AStarState state1 = new AStarState(grid3, 0, 3, new ArrayList<>());
+        AStarState state1 = new AStarState(grid3, 0, 3, new CustomArrayList());
         int[] grid4 = grid3.clone();
         grid4[4] = 0;
         grid4[3] = 4;
-        AStarState state3 = new AStarState(grid4, 1, 4, new ArrayList<>());
+        AStarState state3 = new AStarState(grid4, 1, 4, new CustomArrayList<>());
         int[] grid5 = grid3.clone();
         grid5[4] = 4;
         grid5[3] = 7;
         grid5[6] = 0;
-        AStarState state4 = new AStarState(grid5, 1, 6, new ArrayList<>());
+        AStarState state4 = new AStarState(grid5, 1, 6, new CustomArrayList<>());
         state4.compareTo(null);
         System.out.println("state1: "+ state1);
         System.out.println(state1.getfValue());

@@ -1,9 +1,9 @@
-package Solver;
+package Solver.AStarSolver;
 
-import org.w3c.dom.ls.LSOutput;
+import Solver.DataStructures.CustomArrayQueue;
+import Solver.DataStructures.CustomPriorityQueue;
+import Solver.DataStructures.CustomArrayList;
 
-import java.lang.reflect.Array;
-import java.util.*;
 
 /**
  * A solver for 15-puzzle (or other sized puzzles) (https://en.wikipedia.org/wiki/15_puzzle) implementing A* algorithm (https://en.wikipedia.org/wiki/A*_search_algorithm)
@@ -34,7 +34,7 @@ public class Solver {
      * @param grid the puzzle to be solved as a list
      * @return returns a list of moves for completion
      */
-    public ArrayList<Integer> solve(int[] grid) {
+    public CustomArrayList<Integer> solve(int[] grid) {
         this.grid = grid;
         this.gridSize = (int) Math.sqrt(grid.length);
         this.solved = new int[grid.length];
@@ -54,14 +54,14 @@ public class Solver {
      * @param currPos Position of the blank tile(0), calculated in solve
      * @return returns the list of moves for solution
      */
-    private ArrayList<Integer> findSolution (int[] currGrid, int currPos) {
+    private CustomArrayList<Integer> findSolution (int[] currGrid, int currPos) {
         this.openSet = new CustomPriorityQueue();
-        openSet.add(new AStarState(currGrid, 0, currPos, new ArrayList<>()));
+        openSet.add(new AStarState(currGrid, 0, currPos, new CustomArrayList<>()));
         this.validSteps = new CustomArrayQueue(5);
 
         while(!openSet.isEmpty()) {
             AStarState currentState = openSet.poll();
-            if (Arrays.equals(currentState.getState(), solved)) {
+            if (arrayEquals(currentState.getState(), solved)) {
                 return currentState.getMoves();
             }
             checkValidSteps(currentState);
@@ -81,21 +81,21 @@ public class Solver {
     public CustomArrayQueue<AStarState> checkValidSteps (AStarState state)  {
         int currPos = state.getCurrPos();
         if (checkLeft(state, currPos)) {
-            ArrayList<Integer> moves = (ArrayList<Integer>) state.getMoves().clone();
+            CustomArrayList<Integer> moves = (CustomArrayList<Integer>) state.getMoves().clone();
             AStarState newState = new AStarState(state.getState(), state.getGValue()+1, state.getCurrPos(), moves);
             newState.setParent(state);
             newState.makeMove((currPos-1), currPos);
             validSteps.add(newState);
         }
         if (checkRight(state, currPos)) {
-            ArrayList<Integer> moves = (ArrayList<Integer>) state.getMoves().clone();
+            CustomArrayList<Integer> moves = (CustomArrayList<Integer>) state.getMoves().clone();
             AStarState newState = new AStarState(state.getState(), state.getGValue()+1, state.getCurrPos(), moves);
             newState.setParent(state);
             newState.makeMove((currPos+1), currPos);
             validSteps.add(newState);
         }
         if (checkDown(state, currPos)) {
-            ArrayList<Integer> moves = (ArrayList<Integer>) state.getMoves().clone();
+            CustomArrayList<Integer> moves = (CustomArrayList<Integer>) state.getMoves().clone();
             AStarState newState = new AStarState(state.getState(), state.getGValue() + 1, state.getCurrPos(), moves);
             newState.setParent(state);
             newState.makeMove(currPos + gridSize, currPos);
@@ -103,7 +103,7 @@ public class Solver {
             validSteps.add(newState);
         }
         if (checkUp(state, currPos)) {
-            ArrayList<Integer> moves = (ArrayList<Integer>) state.getMoves().clone();
+            CustomArrayList<Integer> moves = (CustomArrayList<Integer>) state.getMoves().clone();
             AStarState newState = new AStarState(state.getState(), state.getGValue()+1, state.getCurrPos(), moves);
             newState.setParent(state);
             newState.makeMove( currPos-gridSize, currPos);
@@ -133,6 +133,15 @@ public class Solver {
     }
     public void setGrid(int[] grid) {
         this.grid = grid;
+    }
+
+    public Boolean arrayEquals(int[] array1, int[] array2){
+        for (int i = 0; i < array1.length; i++) {
+            if (array1[i] != array2[i]) {
+                return false;
+            }
+        }
+        return true;
     }
 
     /**

@@ -1,12 +1,11 @@
 package Solver;
 
+import Solver.AStarSolver.AStarState;
+import Solver.AStarSolver.Solver;
 import org.junit.Before;
 import org.junit.Test;
 
-import java.lang.reflect.Array;
-import java.util.ArrayDeque;
 import java.util.ArrayList;
-import java.util.Arrays;
 
 import static org.junit.Assert.*;
 

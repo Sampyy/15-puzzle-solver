@@ -1,9 +1,8 @@
-package Solver;
-
-import jdk.nashorn.internal.ir.debug.ASTWriter;
+package Solver.AStarSolver;
 
 import java.util.ArrayList;
 import java.util.Arrays;
+import Solver.DataStructures.CustomArrayList;
 
 /**
  * Implementation for states in A* algorithm
@@ -18,7 +17,7 @@ public class AStarState implements Comparable<AStarState> {
     private AStarState parent;
     private int currPos;
     private int[] state;
-    private ArrayList moves;
+    private CustomArrayList moves;
 
     /**
      *
@@ -27,7 +26,7 @@ public class AStarState implements Comparable<AStarState> {
      * @param currPos current position of the blank tile
      * @param moves move list to reach current position
      */
-    public AStarState(int[] state, int gvalue, int currPos, ArrayList<Integer> moves) {
+    public AStarState(int[] state, int gvalue, int currPos, CustomArrayList<Integer> moves) {
         this.currPos = currPos;
         this.state = state;
         this.gValue = gvalue;
@@ -103,7 +102,7 @@ public class AStarState implements Comparable<AStarState> {
         return returnState;
     }
 
-    public ArrayList<Integer> getMoves() {
+    public CustomArrayList<Integer> getMoves() {
         return moves;
     }
 

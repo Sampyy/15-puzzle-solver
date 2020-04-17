@@ -1,4 +1,4 @@
-package Solver;
+package Solver.DataStructures;
 
 public class CustomArrayQueue<O> {
     private int firstPointer;
