@@ -1,7 +1,5 @@
 package Solver.AStarSolver;
 
-import java.util.ArrayList;
-import java.util.Arrays;
 import Solver.DataStructures.CustomArrayList;
 
 /**
@@ -12,12 +10,13 @@ import Solver.DataStructures.CustomArrayList;
 public class AStarState implements Comparable<AStarState> {
     private int gValue;
     private int fValue;
+    private int hValue;
     private int gridSize;
-    public int hValueInflation = 3;
+    public int hValueInflation = 1;
     private AStarState parent;
     private int currPos;
     private int[] state;
-    private CustomArrayList moves;
+    private CustomArrayList<Integer> moves;
 
     /**
      *
@@ -32,20 +31,70 @@ public class AStarState implements Comparable<AStarState> {
         this.gValue = gvalue;
         this.gridSize = (int) Math.sqrt(this.state.length);
         this.moves = moves;
-        this.fValue = hvalue() + gvalue;
+        this.hValue = hvalue();
+        this.fValue = hValue + gvalue;
+    }
+
+    public AStarState(int[] state, int gvalue, int currPos) {
+        this.currPos = currPos;
+        this.state = state;
+        this.gValue = gvalue;
+        this.gridSize = (int) Math.sqrt(this.state.length);
+        this.hValue = hvalue();
+        this.fValue = hValue + gvalue;
+        this.moves = new CustomArrayList();
     }
 
     /**
      * calculates hvalue of current state, which is the amount of steps required at the least
      * to get to end state, calculated as the sum of every tiles manhattan distance from its
-     * goal tile
+     * goal tile. If state has a parent, use parent's hvalue to speed calculation up
      * @return hvalue of current state
      */
-    public int hvalue() {
+    private int hvalue() {
         int hvalue = 0;
-        for (int i = 0; i < state.length; i++) {
-            if (state[i] != i+1){
-                hvalue+= getDistance(i);
+        if (parent == null) {
+            for (int i = 0; i < state.length; i++) {
+                if (state[i] != i+1){
+                    hvalue+= getDistance(i);
+                }
+            }
+        } else {
+            hvalue = parent.gethValue();
+            int x = currPos % gridSize;
+            int y = currPos / gridSize;
+
+            int xp = parent.currPos % gridSize;
+            int yp = parent.currPos / gridSize;
+
+            int swappedPiece = parent.getState()[yp*gridSize + xp];
+            int correctX = swappedPiece % gridSize;
+            int correctY = swappedPiece / gridSize;
+            if (x > xp) {
+                if (correctX > xp) {
+                    hvalue ++;
+                } else {
+                    hvalue --;
+                }
+            } else if (x < xp) {
+                if (correctX < xp) {
+                    hvalue ++;
+                } else {
+                    hvalue--;
+                }
+
+            } else if (y > yp) {
+                if (correctY > yp) {
+                    hvalue++;
+                } else {
+                    hvalue--;
+                }
+            } else {
+                if (correctY < yp) {
+                    hvalue++;
+                } else {
+                    hvalue--;
+                }
             }
         }
         return this.hValueInflation*hvalue;
@@ -121,6 +170,9 @@ public class AStarState implements Comparable<AStarState> {
     public int getfValue() {
         return fValue;
     }
+    public int gethValue() {
+        return hValue;
+    }
 
     public int getCurrPos() {
         return currPos;
@@ -128,11 +180,17 @@ public class AStarState implements Comparable<AStarState> {
 
     @Override
     public boolean equals(Object o) {
-        AStarState equalsState = (AStarState) o;
-        if (Arrays.equals(equalsState.getState(), this.state)) {
-            return true;
+        AStarState comparing = (AStarState) o;
+        int[] compareState = comparing.getState();
+        if (state == null || comparing.getState() == null) {
+            return false;
         }
-        return false;
+        for (int i = 0; i < state.length; i++) {
+            if (state[i] != compareState[i]) {
+                return false;
+            }
+        }
+        return true;
     }
 
     /**

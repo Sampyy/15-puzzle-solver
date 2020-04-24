@@ -1,8 +1,13 @@
 package Solver;
 import Solver.AStarSolver.AStarState;
 import Solver.AStarSolver.Solver;
+import Solver.DataStructures.CustomArrayQueue;
 import Solver.DataStructures.CustomPriorityQueue;
 import Solver.DataStructures.CustomArrayList;
+import Solver.IDAStarSolver.IDASolver;
+
+import java.util.Stack;
+import java.util.concurrent.TimeUnit;
 
 public class Main {
     public static void main(String[] args) {
@@ -65,73 +70,39 @@ public class Main {
        grid3[7] = 5;
        grid3[8] = 8;
 
-        /*AStarState state = new AStarState(grid, 0, 9);
-        System.out.println(state.getfValue());
-        System.out.println(state.getGValue());*/
         Solver solver = new Solver();
         AStarState state = new AStarState(grid, 0, 9, new CustomArrayList());
         AStarState state2 = new AStarState(grid2, 6, 9 , new CustomArrayList<>());
-        CustomArrayList<AStarState> lista= new CustomArrayList<>();
-        lista.add(state);
-
-        if (lista.contains(state2)) {
-            System.out.println("kylä");
-        }else {
-            System.out.println("no");
-        }
-        System.out.println("Starting grid in Solver.java: ");
-        System.out.println(solver.getGridAsString());
-        System.out.println("Grid solver will try to move towards :");
-        System.out.println(solver.getSolvedAsString());
-        System.out.println(solver.getGridAsString());
 
 
-
-
-
-
-
-        CustomArrayList<Integer> solved =solver.solve(grid2);
+        long startTime = System.nanoTime();
+        CustomArrayList<Integer> solved =solver.solve(grid3);
+        long endTime = System.nanoTime();
+        System.out.println("Solved using A*, solution: ");
         for (int move : solved) {
-            System.out.print(move + ", ");
+           System.out.print(move + ", ");
         }
         System.out.println("\n Amount of moves: " + solved.size());
+        System.out.println("A* Time: " + (double) TimeUnit.MILLISECONDS.convert(endTime-startTime, TimeUnit.NANOSECONDS)/1000 + "sec");
+        IDASolver idasolver = new IDASolver();
+        startTime = System.nanoTime();
+        AStarState solvedstate = idasolver.solve(grid3);
+        endTime = System.nanoTime();
 
+        AStarState parent = solvedstate;
+        CustomArrayQueue<Integer> solvedList = new CustomArrayQueue(10);
+        while (parent != null) {
+            solvedList.add(parent.getMoves().get(0));
+            parent = parent.getParent();
+        }
+        System.out.println("Solved using IDA*, moves: ");
+        while (!solvedList.isEmpty()) {
+            System.out.print(solvedList.pollLast() + ", ");
+        }
 
+        System.out.println("\n IDA* time: " + (double) TimeUnit.MILLISECONDS.convert(endTime-startTime, TimeUnit.NANOSECONDS)/1000 + "sec");
+        System.out.println("\n amount of moves: " + solvedstate.getGValue());
 
-
-
-
-
-        CustomPriorityQueue<AStarState> que = new CustomPriorityQueue();
-        AStarState state1 = new AStarState(grid3, 0, 3, new CustomArrayList());
-        int[] grid4 = grid3.clone();
-        grid4[4] = 0;
-        grid4[3] = 4;
-        AStarState state3 = new AStarState(grid4, 1, 4, new CustomArrayList<>());
-        int[] grid5 = grid3.clone();
-        grid5[4] = 4;
-        grid5[3] = 7;
-        grid5[6] = 0;
-        AStarState state4 = new AStarState(grid5, 1, 6, new CustomArrayList<>());
-        state4.compareTo(null);
-        System.out.println("state1: "+ state1);
-        System.out.println(state1.getfValue());
-        System.out.println("state3: " + state3);
-        System.out.println(state3.getfValue());
-        System.out.println("state4: " + state4);
-        System.out.println(state4.getfValue());
-        que.add(state4);
-        System.out.println(que);
-        que.add(state3);
-        System.out.println(que);
-        que.add(state1);
-        System.out.println(que);
-        que.poll();
-        System.out.println(que);
-        que.add(state3);
-        System.out.println(que);
-        System.out.println(solver.checkLeft(state, 12));
     }
 
     public static int[] setGrid(String gridString) {

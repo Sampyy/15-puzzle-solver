@@ -9,6 +9,8 @@ version '1.0-SNAPSHOT'
 
 sourceCompatibility = 1.8
 apply plugin: 'jacoco'
+apply plugin: 'application'
+mainClassName = 'Solver.Main'
 
 jacocoTestReport {
     reports {

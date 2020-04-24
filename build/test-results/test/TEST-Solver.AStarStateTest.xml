@@ -1,12 +1,12 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<testsuite name="Solver.AStarStateTest" tests="8" skipped="0" failures="0" errors="0" timestamp="2020-04-03T15:26:39" hostname="Sami-PC" time="0.002">
+<testsuite name="Solver.AStarStateTest" tests="8" skipped="0" failures="0" errors="0" timestamp="2020-04-24T18:54:59" hostname="Sami-PC" time="0.004">
   <properties/>
-  <testcase name="getCurrPos" classname="Solver.AStarStateTest" time="0.0"/>
+  <testcase name="getCurrPos" classname="Solver.AStarStateTest" time="0.002"/>
   <testcase name="hvalue" classname="Solver.AStarStateTest" time="0.0"/>
   <testcase name="comparingWorks" classname="Solver.AStarStateTest" time="0.0"/>
   <testcase name="comparingToNullWorks" classname="Solver.AStarStateTest" time="0.0"/>
   <testcase name="makeMove" classname="Solver.AStarStateTest" time="0.0"/>
-  <testcase name="getGValue" classname="Solver.AStarStateTest" time="0.0"/>
+  <testcase name="getGValue" classname="Solver.AStarStateTest" time="0.001"/>
   <testcase name="getParent" classname="Solver.AStarStateTest" time="0.0"/>
   <testcase name="testEquals" classname="Solver.AStarStateTest" time="0.0"/>
   <system-out><![CDATA[]]></system-out>

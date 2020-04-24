@@ -40,6 +40,10 @@ public class CustomArrayList<O> implements Iterable<O> {
         return new CustomArrayList(copiedList, newPointer);
     }
 
+    public Object get(int i) {
+        return list[i];
+    }
+
     public int size() {
         return pointer;
     }
@@ -60,6 +64,8 @@ public class CustomArrayList<O> implements Iterable<O> {
         }
         return false;
     }
+
+
 }
 
     class CustomIterator<O> implements Iterator<O> {
