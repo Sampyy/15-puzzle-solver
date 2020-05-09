@@ -1,6 +1,10 @@
 package Solver.DataStructures;
 import java.util.Iterator;
 
+/**
+ * List, grows when needed.
+ * @param <O>
+ */
 public class CustomArrayList<O> implements Iterable<O> {
     private Object[] list;
     private int pointer;
@@ -23,6 +27,9 @@ public class CustomArrayList<O> implements Iterable<O> {
         pointer++;
     }
 
+    /**
+     * Grows the list when it gets full
+     */
     public void grow() {
         Object[] newList = new Object[(int) (1.4 * list.length)];
         for (int i = 0; i < list.length; i++) {
@@ -31,6 +38,10 @@ public class CustomArrayList<O> implements Iterable<O> {
         this.list = newList;
     }
 
+    /**
+     * copies the list
+     * @return A list that has the same content as the list this is called on
+     */
     public CustomArrayList<O> clone() {
         Object[] copiedList = new Object[list.length];
         for (int i = 0; i < list.length; i++) {
@@ -68,6 +79,10 @@ public class CustomArrayList<O> implements Iterable<O> {
 
 }
 
+/**
+ * Iterator for for each working on the list
+ * @param <O>
+ */
     class CustomIterator<O> implements Iterator<O> {
         Object current;
         int iteratorPointer = 0;

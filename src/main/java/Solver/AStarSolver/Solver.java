@@ -1,5 +1,6 @@
 package Solver.AStarSolver;
 
+import Solver.DataStructures.AStarState;
 import Solver.DataStructures.CustomArrayQueue;
 import Solver.DataStructures.CustomPriorityQueue;
 import Solver.DataStructures.CustomArrayList;
@@ -12,6 +13,7 @@ public class Solver {
     private int gridSize;
     private CustomPriorityQueue<AStarState> openSet;
     private CustomArrayQueue<AStarState> validSteps;
+    private CustomArrayList<AStarState> closedSet;
 
     public String getGridAsString() {
         return asString(grid);
@@ -34,7 +36,7 @@ public class Solver {
      * @param grid the puzzle to be solved as a list
      * @return returns a list of moves for completion
      */
-    public CustomArrayList<Integer> solve(int[] grid) {
+    public CustomArrayList<String> solve(int[] grid) {
         this.grid = grid;
         this.gridSize = (int) Math.sqrt(grid.length);
         this.solved = new int[grid.length];
@@ -54,8 +56,9 @@ public class Solver {
      * @param currPos Position of the blank tile(0), calculated in solve
      * @return returns the list of moves for solution
      */
-    private CustomArrayList<Integer> findSolution (int[] currGrid, int currPos) {
+    private CustomArrayList<String> findSolution (int[] currGrid, int currPos) {
         this.openSet = new CustomPriorityQueue();
+        this.closedSet = new CustomArrayList<>();
         openSet.add(new AStarState(currGrid, 0, currPos, new CustomArrayList<>()));
         this.validSteps = new CustomArrayQueue(5);
 
@@ -67,7 +70,9 @@ public class Solver {
             checkValidSteps(currentState);
             while (!validSteps.isEmpty()) {
                 AStarState nextStep = validSteps.poll();
-                openSet.add(nextStep);
+                if (!closedSet.contains(nextStep)) {
+                    openSet.add(nextStep);
+                }
             }
         }
         return null;
@@ -81,32 +86,32 @@ public class Solver {
     public CustomArrayQueue<AStarState> checkValidSteps (AStarState state)  {
         int currPos = state.getCurrPos();
         if (checkLeft(state, currPos)) {
-            CustomArrayList<Integer> moves = (CustomArrayList<Integer>) state.getMoves().clone();
+            CustomArrayList<String> moves = (CustomArrayList<String>) state.getMoves().clone();
             AStarState newState = new AStarState(state.getState(), state.getGValue()+1, state.getCurrPos(), moves);
             newState.setParent(state);
-            newState.makeMove((currPos-1), currPos);
+            newState.makeMove((currPos-1), currPos, "l");
             validSteps.add(newState);
         }
         if (checkRight(state, currPos)) {
-            CustomArrayList<Integer> moves = (CustomArrayList<Integer>) state.getMoves().clone();
+            CustomArrayList<String> moves = (CustomArrayList<String>) state.getMoves().clone();
             AStarState newState = new AStarState(state.getState(), state.getGValue()+1, state.getCurrPos(), moves);
             newState.setParent(state);
-            newState.makeMove((currPos+1), currPos);
+            newState.makeMove((currPos+1), currPos, "r");
             validSteps.add(newState);
         }
         if (checkDown(state, currPos)) {
-            CustomArrayList<Integer> moves = (CustomArrayList<Integer>) state.getMoves().clone();
+            CustomArrayList<String> moves = (CustomArrayList<String>) state.getMoves().clone();
             AStarState newState = new AStarState(state.getState(), state.getGValue() + 1, state.getCurrPos(), moves);
             newState.setParent(state);
-            newState.makeMove(currPos + gridSize, currPos);
+            newState.makeMove(currPos + gridSize, currPos, "d");
             // System.out.println("new state \n" + asString(newState.getState()));
             validSteps.add(newState);
         }
         if (checkUp(state, currPos)) {
-            CustomArrayList<Integer> moves = (CustomArrayList<Integer>) state.getMoves().clone();
+            CustomArrayList<String> moves = (CustomArrayList<String>) state.getMoves().clone();
             AStarState newState = new AStarState(state.getState(), state.getGValue()+1, state.getCurrPos(), moves);
             newState.setParent(state);
-            newState.makeMove( currPos-gridSize, currPos);
+            newState.makeMove( currPos-gridSize, currPos, "u");
             //System.out.println("new state \n" + asString(newState.getState()));
             validSteps.add(newState);
         }

@@ -1,12 +1,10 @@
 package Solver;
 
-import Solver.AStarSolver.AStarState;
+import Solver.DataStructures.AStarState;
 import Solver.AStarSolver.Solver;
 import Solver.DataStructures.*;
 import org.junit.Before;
 import org.junit.Test;
-
-import java.util.ArrayList;
 
 import static org.junit.Assert.*;
 
@@ -21,7 +19,7 @@ public class SolverTest {
         grid[4] = 6;grid[5] = 10;grid[6] = 11;grid[7] = 3;
         grid[8] = 2;grid[9] = 15;grid[10] = 0;grid[11] = 13;
         grid[12] = 14;grid[13] = 4;grid[14] = 9;grid[15] = 8;
-        this.state = new AStarState(grid, 5, 10, new CustomArrayList<Integer>());
+        this.state = new AStarState(grid, 5, 10, new CustomArrayList<String>());
         this.solver = new Solver();
         solver.setGridSize(4);
         solver.setGrid(grid);
@@ -36,7 +34,7 @@ public class SolverTest {
     public void checkUpDoesntWorkWhenIllegal() {
         grid[2] = 0;
         grid[10] = 2;
-        AStarState state2 = new AStarState(grid, 2, 2, new CustomArrayList<Integer>());
+        AStarState state2 = new AStarState(grid, 2, 2, new CustomArrayList<String>());
 
 
         assertFalse(solver.checkUp(state2, 2));
@@ -51,7 +49,7 @@ public class SolverTest {
     public void checkDownDoesntWorkWhenIllegal() {
         grid[12] = 0;
         grid[10] = 14;
-        AStarState state2 = new AStarState(grid, 2, 12, new CustomArrayList<Integer>());
+        AStarState state2 = new AStarState(grid, 2, 12, new CustomArrayList<String>());
 
 
         assertFalse(solver.checkDown(state2, 12));
@@ -65,7 +63,7 @@ public class SolverTest {
     public void checkRightDoesntWorkWhenIllegal() {
         grid[11] = 0;
         grid[10] = 13;
-        AStarState state2 = new AStarState(grid, 2, 11, new CustomArrayList<Integer>());
+        AStarState state2 = new AStarState(grid, 2, 11, new CustomArrayList<String>());
 
 
         assertFalse(solver.checkRight(state2, 11));
@@ -80,7 +78,7 @@ public class SolverTest {
     public void checkLeftDoesntWorkWhenIllegal() {
         grid[8] = 0;
         grid[10] = 2;
-        AStarState state2 = new AStarState(grid, 2, 8, new CustomArrayList<Integer>());
+        AStarState state2 = new AStarState(grid, 2, 8, new CustomArrayList<String>());
 
 
         assertFalse(solver.checkLeft(state2, 8));
@@ -150,12 +148,12 @@ public class SolverTest {
         grid[7] = 5;
         grid[8] = 8;
 
-        int[] correctList = new int[3];
-        correctList[0] = 4; correctList[1] = 7; correctList[2] = 8;
-        CustomArrayList<Integer> solvedList = solver.solve(grid);
+        String[] correctList = new String[3];
+        correctList[0] = "r"; correctList[1] = "d"; correctList[2] = "r";
+        CustomArrayList<String> solvedList = solver.solve(grid);
         int i = 0;
         Boolean check = true;
-        for(int number : correctList) {
+        for(String number : correctList) {
             if (correctList[i] != number) {
                 check = false;
             }

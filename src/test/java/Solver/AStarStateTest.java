@@ -1,10 +1,10 @@
 package Solver;
 
-import Solver.AStarSolver.AStarState;
+import Solver.DataStructures.AStarState;
 import org.junit.Before;
 import org.junit.Test;
 import Solver.DataStructures.*;
-import java.util.ArrayList;
+
 import java.util.Arrays;
 
 import static org.junit.Assert.*;
@@ -18,12 +18,13 @@ public class AStarStateTest {
         grid[4] = 6;grid[5] = 10;grid[6] = 11;grid[7] = 3;
         grid[8] = 2;grid[9] = 15;grid[10] = 0;grid[11] = 13;
         grid[12] = 14;grid[13] = 4;grid[14] = 9;grid[15] = 8;
-        this.state = new AStarState(grid, 5, 10, new CustomArrayList<Integer>());
+        this.state = new AStarState(grid, 5, 10, new CustomArrayList<String>());
     }
 
     @Test
     public void hvalue() {
-        assertEquals(32*state.hValueInflation, state.gethValue());
+        int expected = (int) ((int) 32*state.hValueInflation);
+        assertEquals(expected, state.gethValue());
     }
 
     @Test
@@ -33,13 +34,13 @@ public class AStarStateTest {
         grid[4] = 6;grid[5] = 10;grid[6] = 11;grid[7] = 3;
         grid[8] = 2;grid[9] = 15;grid[10] = 13;grid[11] = 0;
         grid[12] = 14;grid[13] = 4;grid[14] = 9;grid[15] = 8;
-        state.makeMove(11, 10);
+        state.makeMove(11, 10, "r");
         assertTrue(Arrays.equals(grid, state.getState()));
     }
 
     @Test
     public void getParent() {
-        AStarState stateTest = new AStarState(new int[16], 3, 5, new CustomArrayList<Integer>());
+        AStarState stateTest = new AStarState(new int[16], 3, 5, new CustomArrayList<String>());
         state.setParent(stateTest);
 
         assertEquals(stateTest, state.getParent());
@@ -62,7 +63,7 @@ public class AStarStateTest {
         grid[4] = 6;grid[5] = 10;grid[6] = 11;grid[7] = 3;
         grid[8] = 2;grid[9] = 15;grid[10] = 0;grid[11] = 13;
         grid[12] = 14;grid[13] = 4;grid[14] = 9;grid[15] = 8;
-        AStarState stateTest = new AStarState(grid, 2, 3, new CustomArrayList<Integer>());
+        AStarState stateTest = new AStarState(grid, 2, 3, new CustomArrayList<String>());
 
         assertTrue(state.equals(stateTest));
     }
@@ -79,7 +80,7 @@ public class AStarStateTest {
         grid[4] = 6;grid[5] = 10;grid[6] = 11;grid[7] = 3;
         grid[8] = 2;grid[9] = 0;grid[10] = 15;grid[11] = 13;
         grid[12] = 14;grid[13] = 4;grid[14] = 9;grid[15] = 8;
-        AStarState stateTest = new AStarState(grid, 2, 3, new CustomArrayList<Integer>());
+        AStarState stateTest = new AStarState(grid, 2, 3, new CustomArrayList<String>());
 
         assertTrue(stateTest.compareTo(state) < 0);
     }

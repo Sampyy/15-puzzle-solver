@@ -1,5 +1,9 @@
 package Solver.DataStructures;
 
+/**
+ * A min priority queue, keeps the lowest value as the first object, done using a binary heap
+ * @param <O>
+ */
 public class CustomPriorityQueue<O> {
     private Object[] list;
     private int nextFreeSpot;
@@ -8,6 +12,10 @@ public class CustomPriorityQueue<O> {
         nextFreeSpot = 1;
     }
 
+    /**
+     * adds an object to the queue, and makes sure it's in the right position
+     * @param o object to add
+     */
     public void add(O o) {
         if (nextFreeSpot >= list.length-1) {
             grow();
@@ -29,6 +37,10 @@ public class CustomPriorityQueue<O> {
         nextFreeSpot = nextFreeSpot+1;
     }
 
+    /**
+     * removes the minimum object. Takes the last object in the list, and shifts it down until it is in the correct position, and the next minimum object is as the first object.
+     * @return first object
+     */
     public O poll() {
         O returnObject = (O) list[1];
         int currentObject = 1;
@@ -53,6 +65,9 @@ public class CustomPriorityQueue<O> {
         return returnObject;
     }
 
+    /**
+     * grows the list when it gets full
+     */
     public void grow() {
         int newLength = (int) (1.5*list.length);
         Object[] newList = new Object[newLength];
@@ -62,10 +77,19 @@ public class CustomPriorityQueue<O> {
         this.list = newList;
     }
 
+    /**
+     * returns a particular object, used for testing
+     * @param i
+     * @return
+     */
     public Object get(int i) {
         return list[i];
     }
 
+    /**
+     * returns the size of the list, not necessarily the amount of elements in it.
+     * @return
+     */
     public int size() {
         return this.list.length;
     }

@@ -1,0 +1,183 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="fi"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>Solver.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">15-puzzle-solver</a> &gt; <a href="index.source.html" class="el_package">Solver.AStarSolver</a> &gt; <span class="el_source">Solver.java</span></div><h1>Solver.java</h1><pre class="source lang-java linenums">package Solver.AStarSolver;
+
+import Solver.DataStructures.AStarState;
+import Solver.DataStructures.CustomArrayQueue;
+import Solver.DataStructures.CustomPriorityQueue;
+import Solver.DataStructures.CustomArrayList;
+
+
+/**
+ * A solver for 15-puzzle (or other sized puzzles) (https://en.wikipedia.org/wiki/15_puzzle) implementing A* algorithm (https://en.wikipedia.org/wiki/A*_search_algorithm)
+ */
+public class Solver {
+    private int gridSize;
+    private CustomPriorityQueue&lt;AStarState&gt; openSet;
+    private CustomArrayQueue&lt;AStarState&gt; validSteps;
+    private CustomArrayList&lt;AStarState&gt; closedSet;
+
+    public String getGridAsString() {
+<span class="nc" id="L19">        return asString(grid);</span>
+    }
+
+    private int[] grid;
+    private int startingPos;
+
+    public String getSolvedAsString() {
+<span class="nc" id="L26">        return asString(solved);</span>
+    }
+
+    private int[] solved;
+
+<span class="fc" id="L31">    public Solver() {</span>
+<span class="fc" id="L32">    }</span>
+
+    /**
+     *
+     * @param grid the puzzle to be solved as a list
+     * @return returns a list of moves for completion
+     */
+    public CustomArrayList&lt;String&gt; solve(int[] grid) {
+<span class="fc" id="L40">        this.grid = grid;</span>
+<span class="fc" id="L41">        this.gridSize = (int) Math.sqrt(grid.length);</span>
+<span class="fc" id="L42">        this.solved = new int[grid.length];</span>
+<span class="fc bfc" id="L43" title="All 2 branches covered.">        for (int i = 0; i &lt; grid.length; i++) {</span>
+<span class="fc" id="L44">            solved[i] = i+1;</span>
+<span class="fc bfc" id="L45" title="All 2 branches covered.">            if (grid[i] == 0) {</span>
+<span class="fc" id="L46">                startingPos = i;</span>
+            }
+        }
+<span class="fc" id="L49">        solved[grid.length-1] = 0;</span>
+<span class="fc" id="L50">        return findSolution(grid, startingPos);</span>
+    }
+
+    /**
+     * Finds the solution using A* algorithm
+     * @param currGrid grid to solve
+     * @param currPos Position of the blank tile(0), calculated in solve
+     * @return returns the list of moves for solution
+     */
+    private CustomArrayList&lt;String&gt; findSolution (int[] currGrid, int currPos) {
+<span class="fc" id="L60">        this.openSet = new CustomPriorityQueue();</span>
+<span class="fc" id="L61">        this.closedSet = new CustomArrayList&lt;&gt;();</span>
+<span class="fc" id="L62">        openSet.add(new AStarState(currGrid, 0, currPos, new CustomArrayList&lt;&gt;()));</span>
+<span class="fc" id="L63">        this.validSteps = new CustomArrayQueue(5);</span>
+
+<span class="pc bpc" id="L65" title="1 of 2 branches missed.">        while(!openSet.isEmpty()) {</span>
+<span class="fc" id="L66">            AStarState currentState = openSet.poll();</span>
+<span class="fc bfc" id="L67" title="All 2 branches covered.">            if (arrayEquals(currentState.getState(), solved)) {</span>
+<span class="fc" id="L68">                return currentState.getMoves();</span>
+            }
+<span class="fc" id="L70">            checkValidSteps(currentState);</span>
+<span class="fc bfc" id="L71" title="All 2 branches covered.">            while (!validSteps.isEmpty()) {</span>
+<span class="fc" id="L72">                AStarState nextStep = validSteps.poll();</span>
+<span class="pc bpc" id="L73" title="1 of 2 branches missed.">                if (!closedSet.contains(nextStep)) {</span>
+<span class="fc" id="L74">                    openSet.add(nextStep);</span>
+                }
+<span class="fc" id="L76">            }</span>
+<span class="fc" id="L77">        }</span>
+<span class="nc" id="L78">        return null;</span>
+    }
+
+    /**
+     * Checks which moves are allowed to take on a particular gamestate
+     * @param state the current state of the board
+     * @return returns a queue with all the valid steps
+     */
+    public CustomArrayQueue&lt;AStarState&gt; checkValidSteps (AStarState state)  {
+<span class="fc" id="L87">        int currPos = state.getCurrPos();</span>
+<span class="fc bfc" id="L88" title="All 2 branches covered.">        if (checkLeft(state, currPos)) {</span>
+<span class="fc" id="L89">            CustomArrayList&lt;String&gt; moves = (CustomArrayList&lt;String&gt;) state.getMoves().clone();</span>
+<span class="fc" id="L90">            AStarState newState = new AStarState(state.getState(), state.getGValue()+1, state.getCurrPos(), moves);</span>
+<span class="fc" id="L91">            newState.setParent(state);</span>
+<span class="fc" id="L92">            newState.makeMove((currPos-1), currPos, &quot;l&quot;);</span>
+<span class="fc" id="L93">            validSteps.add(newState);</span>
+        }
+<span class="pc bpc" id="L95" title="1 of 2 branches missed.">        if (checkRight(state, currPos)) {</span>
+<span class="fc" id="L96">            CustomArrayList&lt;String&gt; moves = (CustomArrayList&lt;String&gt;) state.getMoves().clone();</span>
+<span class="fc" id="L97">            AStarState newState = new AStarState(state.getState(), state.getGValue()+1, state.getCurrPos(), moves);</span>
+<span class="fc" id="L98">            newState.setParent(state);</span>
+<span class="fc" id="L99">            newState.makeMove((currPos+1), currPos, &quot;r&quot;);</span>
+<span class="fc" id="L100">            validSteps.add(newState);</span>
+        }
+<span class="fc bfc" id="L102" title="All 2 branches covered.">        if (checkDown(state, currPos)) {</span>
+<span class="fc" id="L103">            CustomArrayList&lt;String&gt; moves = (CustomArrayList&lt;String&gt;) state.getMoves().clone();</span>
+<span class="fc" id="L104">            AStarState newState = new AStarState(state.getState(), state.getGValue() + 1, state.getCurrPos(), moves);</span>
+<span class="fc" id="L105">            newState.setParent(state);</span>
+<span class="fc" id="L106">            newState.makeMove(currPos + gridSize, currPos, &quot;d&quot;);</span>
+            // System.out.println(&quot;new state \n&quot; + asString(newState.getState()));
+<span class="fc" id="L108">            validSteps.add(newState);</span>
+        }
+<span class="fc bfc" id="L110" title="All 2 branches covered.">        if (checkUp(state, currPos)) {</span>
+<span class="fc" id="L111">            CustomArrayList&lt;String&gt; moves = (CustomArrayList&lt;String&gt;) state.getMoves().clone();</span>
+<span class="fc" id="L112">            AStarState newState = new AStarState(state.getState(), state.getGValue()+1, state.getCurrPos(), moves);</span>
+<span class="fc" id="L113">            newState.setParent(state);</span>
+<span class="fc" id="L114">            newState.makeMove( currPos-gridSize, currPos, &quot;u&quot;);</span>
+            //System.out.println(&quot;new state \n&quot; + asString(newState.getState()));
+<span class="fc" id="L116">            validSteps.add(newState);</span>
+        }
+<span class="fc" id="L118">        return validSteps;</span>
+    }
+
+    public Boolean checkLeft(AStarState state, int currPos) {
+<span class="pc bpc" id="L122" title="1 of 8 branches missed.">        return ((currPos-1)%gridSize &lt; currPos%gridSize &amp;&amp; currPos &gt; 0 &amp;&amp; (state.getParent() == null || (currPos-1) != state.getParent().getCurrPos()));</span>
+    }
+
+    public Boolean checkRight(AStarState state, int currPos) {
+<span class="pc bpc" id="L126" title="2 of 8 branches missed.">        return ((currPos+1)%gridSize &gt; currPos%gridSize &amp;&amp; currPos &lt; grid.length-1 &amp;&amp; (state.getParent() == null || (currPos+1) != state.getParent().getCurrPos()));</span>
+    }
+    public Boolean checkDown(AStarState state, int currPos) {
+<span class="pc bpc" id="L129" title="1 of 6 branches missed.">        return (currPos+gridSize &lt; grid.length &amp;&amp; (state.getParent() == null || currPos+gridSize != state.getParent().getCurrPos()));</span>
+    }
+
+    public Boolean checkUp(AStarState state, int currPos) {
+<span class="fc bfc" id="L133" title="All 6 branches covered.">        return (currPos-gridSize &gt;= 0 &amp;&amp; ( state.getParent() == null ||(currPos-gridSize) != state.getParent().getCurrPos()));</span>
+    }
+
+    public void setGridSize(int size) {
+<span class="fc" id="L137">        this.gridSize = size;</span>
+<span class="fc" id="L138">    }</span>
+    public void setGrid(int[] grid) {
+<span class="fc" id="L140">        this.grid = grid;</span>
+<span class="fc" id="L141">    }</span>
+
+    public Boolean arrayEquals(int[] array1, int[] array2){
+<span class="fc bfc" id="L144" title="All 2 branches covered.">        for (int i = 0; i &lt; array1.length; i++) {</span>
+<span class="fc bfc" id="L145" title="All 2 branches covered.">            if (array1[i] != array2[i]) {</span>
+<span class="fc" id="L146">                return false;</span>
+            }
+        }
+<span class="fc" id="L149">        return true;</span>
+    }
+
+    /**
+     * used to make the move, moved to AStarState
+     * @param gridToReturn
+     * @return
+     */
+    /*public int[] makeMove(int[] state, int move, int pos) {
+        int[] newGrid = new int[state.length];
+        for(int i = 0; i &lt; state.length; i++) {
+            newGrid[i] = state[i];
+        }
+        newGrid[pos] = state[move];
+        newGrid[move] = 0;
+        return newGrid;
+    }*/
+
+    /**
+     * Used for troubleshooting, returns game state as string.
+     * @param gridToReturn
+     * @return
+     */
+    public String asString(int[] gridToReturn) {
+<span class="nc" id="L173">        String stringToReturn = new String();</span>
+<span class="nc bnc" id="L174" title="All 2 branches missed.">        for(int i = 0; i &lt; gridSize; i++) {</span>
+<span class="nc bnc" id="L175" title="All 2 branches missed.">            for(int j = 0; j &lt; gridSize; j++) {</span>
+<span class="nc" id="L176">                stringToReturn+= gridToReturn[i*gridSize+j] + &quot;,&quot;;</span>
+            }
+<span class="nc" id="L178">            stringToReturn += &quot;\n&quot;;</span>
+        }
+<span class="nc" id="L180">        return stringToReturn;</span>
+    }
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.2.201808211720</span></div></body></html>

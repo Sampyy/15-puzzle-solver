@@ -1,0 +1,181 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="fi"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>IDASolver.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">15-puzzle-solver</a> &gt; <a href="index.source.html" class="el_package">Solver.IDAStarSolver</a> &gt; <span class="el_source">IDASolver.java</span></div><h1>IDASolver.java</h1><pre class="source lang-java linenums">package Solver.IDAStarSolver;
+import Solver.DataStructures.AStarState;
+import Solver.DataStructures.CustomArrayQueue;
+
+public class IDASolver {
+    private int gridSize;
+    private int[] grid;
+    private int startingPos;
+    private int[] solved;
+    private int bound;
+    private int min;
+<span class="fc" id="L12">    public IDASolver() {</span>
+<span class="fc" id="L13">    }</span>
+
+    /**
+     * Solve given grid
+     * @param grid to solve
+     * @return final state, which is linked to all previous states through the AStarState parent
+     */
+    public AStarState solve(int[] grid) {
+<span class="fc" id="L21">        this.grid = grid;</span>
+<span class="fc" id="L22">        this.gridSize = (int) Math.sqrt(grid.length);</span>
+<span class="fc" id="L23">        this.solved = new int[grid.length];</span>
+
+<span class="fc bfc" id="L25" title="All 2 branches covered.">        for (int i = 0; i &lt; grid.length; i++) {</span>
+<span class="fc" id="L26">            solved[i] = i+1;</span>
+<span class="fc bfc" id="L27" title="All 2 branches covered.">            if (grid[i] == 0) {</span>
+<span class="fc" id="L28">                startingPos = i;</span>
+            }
+        }
+<span class="fc" id="L31">        solved[grid.length-1] = 0;</span>
+<span class="fc" id="L32">        return idaStar(new AStarState(grid, 0, startingPos));</span>
+    }
+
+    /**
+     * Does a depth first search from given state, which is branched according to bound. Bound is inreased by 1 everytime no solution is found.
+     * @param state starting state
+     * @return returns completed state
+     */
+    public AStarState idaStar(AStarState state) {
+<span class="fc" id="L41">        bound = state.gethValue();</span>
+        while (true) {
+<span class="fc" id="L43">            min = Integer.MAX_VALUE;</span>
+<span class="fc" id="L44">            AStarState t = search(state, 0, bound);</span>
+<span class="fc bfc" id="L45" title="All 2 branches covered.">            if (t != null) {</span>
+<span class="fc" id="L46">                return t;</span>
+            }
+<span class="fc" id="L48">            bound =  min;</span>
+<span class="fc" id="L49">        }</span>
+    }
+
+    /**
+     * Searches next steps from state given as parameter
+     * @param state state currently in use
+     * @param g current g-value (distance from root)
+     * @param bound current depth to use as cutoff
+     * @return state if goal state is found, null otherwise
+     */
+    public AStarState search(AStarState state, int g, int bound) {
+<span class="fc" id="L60">        int f = g + state.gethValue();</span>
+<span class="fc bfc" id="L61" title="All 2 branches covered.">        if (f &gt; bound) {</span>
+<span class="fc bfc" id="L62" title="All 2 branches covered.">            if (f &lt; min) {</span>
+<span class="fc" id="L63">                min = f;</span>
+            }
+<span class="fc" id="L65">            return null;</span>
+        }
+
+<span class="fc bfc" id="L68" title="All 2 branches covered.">        if (arrayEquals(state.getState(), solved)) {</span>
+<span class="fc" id="L69">            return state;</span>
+        }
+<span class="fc" id="L71">        CustomArrayQueue&lt;AStarState&gt; validSteps = findNextMoves(state);</span>
+<span class="fc bfc" id="L72" title="All 2 branches covered.">        while (!validSteps.isEmpty()) {</span>
+<span class="fc" id="L73">            AStarState t = search(validSteps.poll(), g+1, bound);</span>
+<span class="fc bfc" id="L74" title="All 2 branches covered.">            if (t != null) {</span>
+<span class="fc" id="L75">                return t;</span>
+            }
+<span class="fc" id="L77">        }</span>
+<span class="fc" id="L78">        return null;</span>
+    }
+
+    /**
+     * checks all possible next states from current state
+     * @param state state to search from
+     * @return Queue of possible next states
+     */
+    public CustomArrayQueue&lt;AStarState&gt; findNextMoves(AStarState state) {
+<span class="fc" id="L87">        int currPos = state.getCurrPos();</span>
+<span class="fc" id="L88">        CustomArrayQueue&lt;AStarState&gt; validSteps = new CustomArrayQueue(10);</span>
+<span class="fc bfc" id="L89" title="All 2 branches covered.">        if (checkLeft(state, currPos)) {</span>
+<span class="fc" id="L90">            AStarState newState = new AStarState(state.getState(), state.getGValue()+1, state.getCurrPos());</span>
+<span class="fc" id="L91">            newState.setParent(state);</span>
+<span class="fc" id="L92">            newState.makeMove((currPos-1), currPos, &quot;l&quot;);</span>
+<span class="fc" id="L93">            validSteps.add(newState);</span>
+        }
+<span class="fc bfc" id="L95" title="All 2 branches covered.">        if (checkRight(state, currPos)) {</span>
+<span class="fc" id="L96">            AStarState newState = new AStarState(state.getState(), state.getGValue()+1, state.getCurrPos());</span>
+<span class="fc" id="L97">            newState.setParent(state);</span>
+<span class="fc" id="L98">            newState.makeMove((currPos+1), currPos, &quot;r&quot;);</span>
+<span class="fc" id="L99">            validSteps.add(newState);</span>
+        }
+<span class="fc bfc" id="L101" title="All 2 branches covered.">        if (checkDown(state, currPos)) {</span>
+<span class="fc" id="L102">            AStarState newState = new AStarState(state.getState(), state.getGValue() + 1, state.getCurrPos());</span>
+<span class="fc" id="L103">            newState.setParent(state);</span>
+<span class="fc" id="L104">            newState.makeMove(currPos + gridSize, currPos, &quot;d&quot;);</span>
+            // System.out.println(&quot;new state \n&quot; + asString(newState.getState()));
+<span class="fc" id="L106">            validSteps.add(newState);</span>
+        }
+<span class="fc bfc" id="L108" title="All 2 branches covered.">        if (checkUp(state, currPos)) {</span>
+<span class="fc" id="L109">            AStarState newState = new AStarState(state.getState(), state.getGValue()+1, state.getCurrPos());</span>
+<span class="fc" id="L110">            newState.setParent(state);</span>
+<span class="fc" id="L111">            newState.makeMove( currPos-gridSize, currPos, &quot;u&quot;);</span>
+            //System.out.println(&quot;new state \n&quot; + asString(newState.getState()));
+<span class="fc" id="L113">            validSteps.add(newState);</span>
+        }
+<span class="fc" id="L115">        return validSteps;</span>
+    }
+
+    /**
+     * Check whether going left is a possible move
+     * @param state state to check
+     * @param currPos location of the blank tile (0)
+     * @return true if possible, false otherwise
+     */
+    public Boolean checkLeft(AStarState state, int currPos) {
+<span class="pc bpc" id="L125" title="1 of 8 branches missed.">        return ((currPos-1)%gridSize &lt; currPos%gridSize &amp;&amp; currPos &gt; 0 &amp;&amp; (state.getParent() == null || (currPos-1) != state.getParent().getCurrPos()));</span>
+    }
+    /**
+     * Check whether going right is a possible move
+     * @param state state to check
+     * @param currPos location of the blank tile (0)
+     * @return true if possible, false otherwise
+     */
+    public Boolean checkRight(AStarState state, int currPos) {
+<span class="pc bpc" id="L134" title="1 of 8 branches missed.">        return ((currPos+1)%gridSize &gt; currPos%gridSize &amp;&amp; currPos &lt; grid.length-1 &amp;&amp; (state.getParent() == null || (currPos+1) != state.getParent().getCurrPos()));</span>
+    }
+    /**
+     * Check whether going down is a possible move
+     * @param state state to check
+     * @param currPos location of the blank tile (0)
+     * @return true if possible, false otherwise
+     */
+    public Boolean checkDown(AStarState state, int currPos) {
+<span class="pc bpc" id="L143" title="1 of 6 branches missed.">        return (currPos+gridSize &lt; grid.length &amp;&amp; (state.getParent() == null || currPos+gridSize != state.getParent().getCurrPos()));</span>
+    }
+    /**
+     * Check whether going up is a possible move
+     * @param state state to check
+     * @param currPos location of the blank tile (0)
+     * @return true if possible, false otherwise
+     */
+    public Boolean checkUp(AStarState state, int currPos) {
+<span class="fc bfc" id="L152" title="All 6 branches covered.">        return (currPos-gridSize &gt;= 0 &amp;&amp; ( state.getParent() == null ||(currPos-gridSize) != state.getParent().getCurrPos()));</span>
+    }
+
+    public void setGridSize(int size) {
+<span class="fc" id="L156">        this.gridSize = size;</span>
+<span class="fc" id="L157">    }</span>
+
+    public void setGrid(int[] grid) {
+<span class="fc" id="L160">        this.grid = grid;</span>
+<span class="fc" id="L161">    }</span>
+
+    /**
+     * checks if 2 arrays are the same
+     * @param array1
+     * @param array2
+     * @return
+     */
+    public Boolean arrayEquals(int[] array1, int[] array2){
+<span class="pc bpc" id="L170" title="2 of 4 branches missed.">        if (array1 == null || array2 == null) {</span>
+<span class="nc" id="L171">            return false;</span>
+        }
+<span class="fc bfc" id="L173" title="All 2 branches covered.">        for (int i = 0; i &lt; array1.length; i++) {</span>
+<span class="fc bfc" id="L174" title="All 2 branches covered.">            if (array1[i] != array2[i]) {</span>
+<span class="fc" id="L175">                return false;</span>
+            }
+        }
+<span class="fc" id="L178">        return true;</span>
+    }
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.2.201808211720</span></div></body></html>

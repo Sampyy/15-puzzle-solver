@@ -1,0 +1,79 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="fi"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>CustomArrayQueue.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">15-puzzle-solver</a> &gt; <a href="index.source.html" class="el_package">Solver.DataStructures</a> &gt; <span class="el_source">CustomArrayQueue.java</span></div><h1>CustomArrayQueue.java</h1><pre class="source lang-java linenums">package Solver.DataStructures;
+
+/**
+ * A queue, you can add and remove objects from it.
+ * @param &lt;O&gt;
+ */
+public class CustomArrayQueue&lt;O&gt; {
+    private int firstPointer;
+    private int lastPointer;
+    private Object[] list;
+
+<span class="fc" id="L12">    public CustomArrayQueue(int size) {</span>
+<span class="fc" id="L13">        this.list = new Object[size];</span>
+<span class="fc" id="L14">        this.firstPointer = 0;</span>
+<span class="fc" id="L15">        this.lastPointer = 0;</span>
+<span class="fc" id="L16">    }</span>
+
+    /**
+     * adds an object to the queue and moves the lastpointer
+     * @param o object to be added
+     */
+    public void add(Object o)  {
+<span class="fc" id="L23">        this.list[lastPointer]=o;</span>
+<span class="fc" id="L24">        this.lastPointer ++;</span>
+<span class="pc bpc" id="L25" title="1 of 2 branches missed.">        if (lastPointer == list.length) {</span>
+<span class="nc" id="L26">            grow();</span>
+        }
+<span class="fc" id="L28">    }</span>
+
+    /**
+     * Removes the first object, resets both pointers to 0 if they are equal = there are no objects in the queue
+     * @return first object of the queue
+     */
+    public O poll() {
+<span class="pc bpc" id="L35" title="1 of 2 branches missed.">        if (this.firstPointer == this.lastPointer) {</span>
+<span class="nc" id="L36">            this.firstPointer = 0;</span>
+<span class="nc" id="L37">            this.lastPointer = 0;</span>
+<span class="nc" id="L38">            return null;</span>
+        }
+<span class="fc" id="L40">        O objectToReturn = (O) list[firstPointer];</span>
+<span class="fc" id="L41">        this.firstPointer ++;</span>
+
+<span class="fc" id="L43">        return objectToReturn;</span>
+    }
+
+    /**
+     * Removes the last object, resets both pointers to 0 if they are equal = there are no objects in the queue
+     * @return last object of the queue
+     */
+    public O pollLast() {
+<span class="nc bnc" id="L51" title="All 2 branches missed.">        if (this.firstPointer == this.lastPointer) {</span>
+<span class="nc" id="L52">            this.firstPointer = 0;</span>
+<span class="nc" id="L53">            lastPointer = 0;</span>
+<span class="nc" id="L54">            return null;</span>
+        }
+<span class="nc" id="L56">        O objectToReturn = (O) list[lastPointer-1];</span>
+<span class="nc" id="L57">        lastPointer --;</span>
+
+<span class="nc" id="L59">        return objectToReturn;</span>
+    }
+
+    public void grow() {
+<span class="nc" id="L63">        Object[] newList = new Object[list.length * 2];</span>
+<span class="nc bnc" id="L64" title="All 2 branches missed.">        for(int i = 0; i &lt; list.length; i++) {</span>
+<span class="nc" id="L65">            newList[i] = list[i];</span>
+        }
+<span class="nc" id="L67">        this.list = newList;</span>
+<span class="nc" id="L68">    }</span>
+
+    public boolean isEmpty() {
+<span class="fc bfc" id="L71" title="All 2 branches covered.">        if (this.firstPointer == this.lastPointer) {</span>
+<span class="fc" id="L72">            this.firstPointer = 0;</span>
+<span class="fc" id="L73">            this.lastPointer = 0;</span>
+<span class="fc" id="L74">            return true;</span>
+        }
+<span class="fc" id="L76">        return false;</span>
+    }
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.2.201808211720</span></div></body></html>

@@ -1,5 +1,5 @@
 package Solver.IDAStarSolver;
-import Solver.AStarSolver.AStarState;
+import Solver.DataStructures.AStarState;
 import Solver.DataStructures.CustomArrayQueue;
 
 public class IDASolver {
@@ -8,6 +8,7 @@ public class IDASolver {
     private int startingPos;
     private int[] solved;
     private int bound;
+    private int min;
     public IDASolver() {
     }
 
@@ -39,11 +40,12 @@ public class IDASolver {
     public AStarState idaStar(AStarState state) {
         bound = state.gethValue();
         while (true) {
+            min = Integer.MAX_VALUE;
             AStarState t = search(state, 0, bound);
             if (t != null) {
                 return t;
             }
-            bound ++;
+            bound =  min;
         }
     }
 
@@ -56,8 +58,10 @@ public class IDASolver {
      */
     public AStarState search(AStarState state, int g, int bound) {
         int f = g + state.gethValue();
-
         if (f > bound) {
+            if (f < min) {
+                min = f;
+            }
             return null;
         }
 
@@ -85,26 +89,26 @@ public class IDASolver {
         if (checkLeft(state, currPos)) {
             AStarState newState = new AStarState(state.getState(), state.getGValue()+1, state.getCurrPos());
             newState.setParent(state);
-            newState.makeMove((currPos-1), currPos);
+            newState.makeMove((currPos-1), currPos, "l");
             validSteps.add(newState);
         }
         if (checkRight(state, currPos)) {
             AStarState newState = new AStarState(state.getState(), state.getGValue()+1, state.getCurrPos());
             newState.setParent(state);
-            newState.makeMove((currPos+1), currPos);
+            newState.makeMove((currPos+1), currPos, "r");
             validSteps.add(newState);
         }
         if (checkDown(state, currPos)) {
             AStarState newState = new AStarState(state.getState(), state.getGValue() + 1, state.getCurrPos());
             newState.setParent(state);
-            newState.makeMove(currPos + gridSize, currPos);
+            newState.makeMove(currPos + gridSize, currPos, "d");
             // System.out.println("new state \n" + asString(newState.getState()));
             validSteps.add(newState);
         }
         if (checkUp(state, currPos)) {
             AStarState newState = new AStarState(state.getState(), state.getGValue()+1, state.getCurrPos());
             newState.setParent(state);
-            newState.makeMove( currPos-gridSize, currPos);
+            newState.makeMove( currPos-gridSize, currPos, "u");
             //System.out.println("new state \n" + asString(newState.getState()));
             validSteps.add(newState);
         }
@@ -146,6 +150,14 @@ public class IDASolver {
      */
     public Boolean checkUp(AStarState state, int currPos) {
         return (currPos-gridSize >= 0 && ( state.getParent() == null ||(currPos-gridSize) != state.getParent().getCurrPos()));
+    }
+
+    public void setGridSize(int size) {
+        this.gridSize = size;
+    }
+
+    public void setGrid(int[] grid) {
+        this.grid = grid;
     }
 
     /**

@@ -1,6 +1,5 @@
 package Solver.DataStructures;
 
-import Solver.AStarSolver.AStarState;
 import org.junit.Before;
 import org.junit.Test;
 

@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<testsuite name="Solver.IDAStarSolver.IDASolverTest" tests="11" skipped="0" failures="0" errors="0" timestamp="2020-05-09T10:17:57" hostname="Sami-PC" time="0.005">
+  <properties/>
+  <testcase name="checkRightWorksLegal" classname="Solver.IDAStarSolver.IDASolverTest" time="0.002"/>
+  <testcase name="checkDownWorksIllegal" classname="Solver.IDAStarSolver.IDASolverTest" time="0.0"/>
+  <testcase name="checkLeftWorksIllegal" classname="Solver.IDAStarSolver.IDASolverTest" time="0.0"/>
+  <testcase name="checkUpWorksIllegal" classname="Solver.IDAStarSolver.IDASolverTest" time="0.0"/>
+  <testcase name="checkRightWorksIllegal" classname="Solver.IDAStarSolver.IDASolverTest" time="0.0"/>
+  <testcase name="checkLeftWhenLegal" classname="Solver.IDAStarSolver.IDASolverTest" time="0.0"/>
+  <testcase name="solve" classname="Solver.IDAStarSolver.IDASolverTest" time="0.001"/>
+  <testcase name="arrayEquals" classname="Solver.IDAStarSolver.IDASolverTest" time="0.0"/>
+  <testcase name="findNextMoves" classname="Solver.IDAStarSolver.IDASolverTest" time="0.001"/>
+  <testcase name="checkDownWorksLegal" classname="Solver.IDAStarSolver.IDASolverTest" time="0.0"/>
+  <testcase name="checkUpWorksLegal" classname="Solver.IDAStarSolver.IDASolverTest" time="0.0"/>
+  <system-out><![CDATA[]]></system-out>
+  <system-err><![CDATA[]]></system-err>
+</testsuite>

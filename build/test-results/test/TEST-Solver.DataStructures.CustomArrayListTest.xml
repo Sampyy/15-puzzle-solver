@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<testsuite name="Solver.DataStructures.CustomArrayListTest" tests="5" skipped="0" failures="0" errors="0" timestamp="2020-04-24T18:54:59" hostname="Sami-PC" time="0.0">
+<testsuite name="Solver.DataStructures.CustomArrayListTest" tests="5" skipped="0" failures="0" errors="0" timestamp="2020-05-09T10:17:57" hostname="Sami-PC" time="0.001">
   <properties/>
   <testcase name="contains" classname="Solver.DataStructures.CustomArrayListTest" time="0.0"/>
   <testcase name="add" classname="Solver.DataStructures.CustomArrayListTest" time="0.0"/>

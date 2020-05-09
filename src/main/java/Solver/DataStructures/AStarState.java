@@ -1,6 +1,4 @@
-package Solver.AStarSolver;
-
-import Solver.DataStructures.CustomArrayList;
+package Solver.DataStructures;
 
 /**
  * Implementation for states in A* algorithm
@@ -12,11 +10,11 @@ public class AStarState implements Comparable<AStarState> {
     private int fValue;
     private int hValue;
     private int gridSize;
-    public int hValueInflation = 1;
+    public double hValueInflation = 1;
     private AStarState parent;
     private int currPos;
     private int[] state;
-    private CustomArrayList<Integer> moves;
+    private CustomArrayList<String> moves;
 
     /**
      *
@@ -25,7 +23,7 @@ public class AStarState implements Comparable<AStarState> {
      * @param currPos current position of the blank tile
      * @param moves move list to reach current position
      */
-    public AStarState(int[] state, int gvalue, int currPos, CustomArrayList<Integer> moves) {
+    public AStarState(int[] state, int gvalue, int currPos, CustomArrayList<String> moves) {
         this.currPos = currPos;
         this.state = state;
         this.gValue = gvalue;
@@ -97,7 +95,7 @@ public class AStarState implements Comparable<AStarState> {
                 }
             }
         }
-        return this.hValueInflation*hvalue;
+        return (int) this.hValueInflation*hvalue;
     }
 
     /**
@@ -126,7 +124,7 @@ public class AStarState implements Comparable<AStarState> {
      * @param move which tile to move blank to
      * @param pos blank tiles current position
      */
-    public void makeMove(int move, int pos) {
+    public void makeMove(int move, int pos, String moveS) {
         int[] newGrid = new int[state.length];
         for(int i = 0; i < state.length; i++) {
             newGrid[i] = state[i];
@@ -136,7 +134,7 @@ public class AStarState implements Comparable<AStarState> {
         this.state = newGrid;
         this.currPos = move;
         this.fValue = gValue + hvalue();
-        this.moves.add(move);
+        this.moves.add(moveS);
     }
 
     /**
@@ -151,7 +149,7 @@ public class AStarState implements Comparable<AStarState> {
         return returnState;
     }
 
-    public CustomArrayList<Integer> getMoves() {
+    public CustomArrayList<String> getMoves() {
         return moves;
     }
 

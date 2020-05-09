@@ -1,5 +1,9 @@
 package Solver.DataStructures;
 
+/**
+ * A queue, you can add and remove objects from it.
+ * @param <O>
+ */
 public class CustomArrayQueue<O> {
     private int firstPointer;
     private int lastPointer;
@@ -11,6 +15,10 @@ public class CustomArrayQueue<O> {
         this.lastPointer = 0;
     }
 
+    /**
+     * adds an object to the queue and moves the lastpointer
+     * @param o object to be added
+     */
     public void add(Object o)  {
         this.list[lastPointer]=o;
         this.lastPointer ++;
@@ -19,6 +27,10 @@ public class CustomArrayQueue<O> {
         }
     }
 
+    /**
+     * Removes the first object, resets both pointers to 0 if they are equal = there are no objects in the queue
+     * @return first object of the queue
+     */
     public O poll() {
         if (this.firstPointer == this.lastPointer) {
             this.firstPointer = 0;
@@ -31,6 +43,10 @@ public class CustomArrayQueue<O> {
         return objectToReturn;
     }
 
+    /**
+     * Removes the last object, resets both pointers to 0 if they are equal = there are no objects in the queue
+     * @return last object of the queue
+     */
     public O pollLast() {
         if (this.firstPointer == this.lastPointer) {
             this.firstPointer = 0;
