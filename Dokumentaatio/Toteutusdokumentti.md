@@ -1,11 +1,9 @@
 ### Toteutus
 
-Ohjelman ytimenä on luokka Solver, joka metodilla solve(ratkaistava ruudukko) ratkaisee ongelman joka on annettu yhtenä listana 
-vasemmalta yläkulmasta oikealle lähtien. Metodi toimii kaiken kokoisiin ruudukoihin, kunhan rivien ja sarakkeiden koko on sama, joskin 
-tehokkuus ei välttämättä riitä isompiin ruudukoihin.
+Ohjelman ratkaisee ongelman joka on annettu yhtenä listana 
+vasemmalta yläkulmasta oikealle lähtien. Metodi toimii kaiken kokoisiin ruudukoihin, kunhan rivien ja sarakkeiden koko on sama, joskin tehokkuus ei välttämättä riitä isompiin ruudukoihin. Ohjelma ratkaisee ongelman A*-algoritmilla sekä IDA*-algoritmilla.
 
-Solve kutsuu lopussa metodia findSolution. FindSolutionissa luodaan prioriteettijono openSet, ja siihen lisätään alkutilanne AStarState luokkana.
-AStarStatessa pidetään tyhjän ruudun paikkaa, g-arvoa, ruudukkoa sekä tähän tilaan johtanutta listaa siirroista.
+A*-algoritmissa pidetään yllä prioriteeettijonoa openSet, johon lisätään aina tilanteessa seuraavat mahdolliset askeleet. Nämä järjestetään niiden f-arvon perusteella. Jonon ensimmäisenä on aina pienimmän f-arvon omaava tila, "paras arvaus". Tämä f-arvo lasketaan tilanteeseen johtavien askelten, sekä jonon h-arvon summana. H-arvo lasketaan kaikkien ruutujen etäisyyden omasta "maaliruudustaan" summana. Mikäli vastaus löytyy, palautetaan se listana, joka sisältää siirrot järjestyksessä kuvattuna "r=right, l=left, u=up, d=down".
 
-FindSolutionissa käydään läpi looppia, jossa otetaan aina "paras" AStarState opensetistä, katsotaan siitä seuraavat siirrot sekä lisätään ne opensettiin.
-Tätä jatketaan kunnes ratkaisuu löytyy, tai tilat loppuvat opensetistä, jolloin ongelma ei ole ratkaistavissa.
+IDA*-algoritmissa on arvo bound, joka alussa pistetään aloitustilan h-arvoon. Sitten suoritetaan loopissa rekursiivista hakua, jolla käydään syvyyshaulla läpi tiloja, leikkaamalla oksat pois siinä vaiheessa kun tilan f-arvo on suurempi kuin bound muuttuja. Nämä haut palauttavat tilan, mikäli se on lopputila, ja null muuten. Mikäli alkulooppiin palautuu null, kasvatetaan bound arvoa, ja suoritetaan haku uudelleen, nyt hieman suuremmalla bound arvolla.
+
