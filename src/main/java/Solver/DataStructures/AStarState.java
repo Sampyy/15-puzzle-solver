@@ -112,8 +112,8 @@ public class AStarState implements Comparable<AStarState> {
             return 0;
         }
         int finalLocation = state[tile]-1;
-        int xdistance = Math.abs((tile%gridSize)-(finalLocation%gridSize));
-        int ydistance = Math.abs((tile/gridSize)-(finalLocation/gridSize));
+        int xdistance = (((tile%gridSize)-(finalLocation%gridSize)) > 0 ? (tile%gridSize)-(finalLocation%gridSize) : -1*((tile%gridSize)-(finalLocation%gridSize)));
+        int ydistance = (((tile/gridSize)-(finalLocation/gridSize)) > 0 ? (tile/gridSize)-(finalLocation/gridSize) : -1*((tile/gridSize)-(finalLocation/gridSize)));
         int distance = xdistance + ydistance;
         //System.out.println("Luvut: tile = " + tile + " luku = " + state[tile] + " , xdistance = " +xdistance + " ydistance = " + ydistance);
         return distance;
