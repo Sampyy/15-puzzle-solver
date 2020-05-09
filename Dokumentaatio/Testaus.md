@@ -7,14 +7,14 @@ Yksikkötestauksen testikattavuutta voi katsoa painamalla grafiikkaa
 
 ## Suorituskykytestaus
 
-Testattu erilaisilla h-arvon kertoimilla, sekä erikokoisilla taulukoilla. Keskimääräisiä tuloksia ajoista sekunteina, sekä siirtojen määrästä. Testit suoritettu käyttäen 2048 MB heapia. OOM = Out of Memory.
+Testattu erilaisilla h-arvon kertoimilla, sekä erikokoisilla taulukoilla. Keskimääräisiä tuloksia ajoista sekunteina, sekä siirtojen määrästä. Testit suoritettu käyttäen 2048 MB heapia. OOM = Out of Memory. Yleisesti kertoimen kasvattaminen nopeuttaa suoritusta A*, ja vaikuttaa IDA* hieman vaihtelevammin. Jos kertoimen kerroin on jotain muuta kuin 1, saadaan jokin tulos, ei välttämättä lyhin mahdollinen tulos.
 
 #### A*
 
 | Kerroin | 3x3 | 4x4 | 5x5 |           
 | --- | --- | --- | --- |               
-| 1   | 0,001, 3 | 2,3 | OOM
-| 2   | 0,001, 3 | 0.538, 108 | 0.8, 190
+| 1   | 0,001, 3 | 2,3, 52 | OOM
+| 2   | 0,001, 3 | 0.538, 108 | 1.135, 210
 | 3   | 0,001, 3 | 0.021, 120 
 | 4   | 0,001, 3 | 0.617, 140
 
@@ -23,7 +23,7 @@ Testattu erilaisilla h-arvon kertoimilla, sekä erikokoisilla taulukoilla. Keski
 
 | Kerroin | 3x3 | 4x4 | 5x5 |
 | --- | --- | --- | --- |
-| 1   | 0,0001, 3 | 8.584, 52| 115.362 |
-| 2   | 0,0001, 3 | 0.007, 70 | 165.556, 142 |
-| 3   | 0,0001, 3 | 0.023, 105 | 1.923, 213 |
+| 1   | 0,0001, 3 | 1.594, 52| 61.362 |
+| 2   | 0,0001, 3 | 0.007, 70 | 35.243, 149 |
+| 3   | 0,0001, 3 | 0.023, 105 | 45.425, 213 |
 | 4   | 0,0001, 3 | 0.005, 150 |
